@@ -1,0 +1,54 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+
+  /* Default (Light) mode colors mapped from original index.html */
+  --color-background: #f8fafc;
+  --color-foreground: #1e293b;
+  --color-card: #ffffff;
+  --color-card-foreground: #1e293b;
+  --color-primary: #dc2626;
+  --color-primary-foreground: #ffffff;
+  --color-secondary: #0f766e;
+  --color-secondary-foreground: #ffffff;
+  --color-muted: #f1f5f9;
+  --color-muted-foreground: #64748b;
+  --color-accent: #f97316;
+  --color-accent-foreground: #ffffff;
+  --color-border: #e2e8f0;
+  --color-ring: #dc2626;
+}
+
+/* Dark mode overrides mapped from original index.html */
+.dark {
+  --color-background: #0f172a;
+  --color-foreground: #f1f5f9;
+  --color-card: #1e293b;
+  --color-card-foreground: #f1f5f9;
+  --color-primary: #dc2626;
+  --color-primary-foreground: #ffffff;
+  --color-secondary: #0d9488;
+  --color-secondary-foreground: #f1f5f9;
+  --color-muted: #1e293b;
+  --color-muted-foreground: #94a3b8;
+  --color-accent: #fb923c;
+  --color-accent-foreground: #0f172a;
+  --color-border: #334155;
+  --color-ring: #dc2626;
+}
+
+/* Explicitly define the dark variant to look for the .dark class */
+@variant dark (&:where(.dark, .dark *));
+
+/* Base styles */
+* {
+  border-color: var(--color-border);
+}
+
+body {
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  font-feature-settings: "rlig" 1, "calt" 1;
+}

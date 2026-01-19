@@ -1,0 +1,125 @@
+// src/components/DealCard.tsx
+import React from 'react';
+import Link from 'next/link';
+import type { Deal } from '../types';
+import { formatRelativeTime } from '../lib/utils';
+import { getMerchantLogoUrl } from '../lib/merchantLogos';
+import { ExternalDealLink } from './ExternalDealLink';
+
+interface DealCardProps {
+  deal: Deal;
+  variant?: 'grid' | 'list';
+  priority?: boolean;
+  country?: string;
+}
+
+export const DealCard: React.FC<DealCardProps> = ({ deal, variant = 'grid', country = 'us' }) => {
+  const merchantLogo = getMerchantLogoUrl(deal.origDealDomain);
+  const isList = variant === 'list';
+  
+  return (
+    <div className={`group relative flex bg-card hover:bg-muted/50 border border-border rounded-xl overflow-hidden transition-all duration-200 ${
+      isList ? 'flex-col sm:flex-row' : 'flex-col'
+    }`}>
+      
+      {/* Image Section */}
+      <div className={`relative overflow-hidden bg-gray-100 shrink-0 ${
+        isList ? 'w-full sm:w-48 aspect-video sm:aspect-square' : 'aspect-[4/3] w-full'
+      }`}>
+        {deal.imageLink ? (
+          <img
+            src={deal.imageLink}
+            alt={deal.title}
+            className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-300"
+            loading="lazy"
+          />
+        ) : (
+          <div className="w-full h-full flex items-center justify-center bg-muted text-muted-foreground/30">
+            <svg className="w-12 h-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+          </div>
+        )}
+        {deal.percentOff && deal.percentOff > 0 && (
+          <div className="absolute top-2 left-2 bg-red-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded shadow-sm">
+            {deal.percentOff}% OFF
+          </div>
+        )}
+      </div>
+
+      {/* Content Section */}
+      <div className="flex flex-col flex-1 p-4 min-w-0">
+        
+        {/* Meta Header */}
+        <div className="flex items-center gap-2 mb-2 text-xs text-muted-foreground">
+           {merchantLogo && (
+             <img src={merchantLogo} alt={deal.origDealDomain} className="w-4 h-4 object-contain" />
+           )}
+           <span className="truncate">{deal.origDealDomain}</span>
+           <span>•</span>
+           <span>{formatRelativeTime(deal.dateCreated)}</span>
+        </div>
+
+        {/* Title */}
+        <h3 className={`font-semibold text-foreground line-clamp-2 mb-2 group-hover:text-primary transition-colors ${
+          isList ? 'text-lg' : 'text-base'
+        }`}>
+          <Link href={`/${country}/deal/${deal.id}`} className="after:absolute after:inset-0">
+            {deal.title}
+          </Link>
+        </h3>
+
+        {/* Pricing */}
+        <div className="mt-auto flex items-baseline gap-2">
+          {deal.dealPrice ? (
+             <>
+               <span className="text-xl font-bold text-red-600">${deal.dealPrice}</span>
+               {deal.regPrice && (
+                 <span className="text-sm text-muted-foreground line-through">${deal.regPrice}</span>
+               )}
+             </>
+          ) : (
+             <span className="text-lg font-bold text-foreground">See Deal</span>
+          )}
+        </div>
+
+        {/* Actions & Hotness */}
+        <div className="mt-4 flex items-center justify-between border-t border-border pt-4 gap-4">
+            {/* Hotness Progress Bar */}
+            <div className="flex flex-col flex-1" title={`Hotness: ${deal.hotValue} / 800`}>
+                <div className="flex justify-between items-end mb-1.5">
+                    <span className="text-xs font-bold text-red-600 dark:text-red-400 flex items-center gap-1.5 leading-none">
+                         <span className="text-[10px] text-muted-foreground font-medium uppercase tracking-wider">Hot</span>
+                         {deal.hotValue}°
+                    </span>
+                </div>
+                <div className="h-1.5 w-full bg-muted rounded-full overflow-hidden">
+                    <div 
+                        className="h-full bg-linear-to-r from-red-500 to-orange-500 rounded-full transition-all duration-500 ease-out" 
+                        style={{ width: `${Math.min((deal.hotValue / 800) * 100, 100)}%` }} 
+                    />
+                </div>
+            </div>
+
+            <div className="flex gap-2 shrink-0">
+                <button 
+                    className="flex items-center justify-center rounded-md border border-border p-2 text-sm transition-colors text-muted-foreground hover:bg-muted hover:text-red-600"
+                    aria-label="Upvote this deal"
+                >
+                    <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5" />
+                    </svg>
+                </button>
+                <ExternalDealLink 
+                    href={deal.origDealLink} 
+                    className="rounded-md bg-primary px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-secondary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary whitespace-nowrap"
+                >
+                    Get Deal
+                </ExternalDealLink>
+            </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
