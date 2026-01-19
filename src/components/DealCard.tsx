@@ -53,7 +53,7 @@ export const DealCard: React.FC<DealCardProps> = ({ deal, variant = 'grid', coun
         {/* Meta Header */}
         <div className="flex items-center gap-2 mb-2 text-xs text-muted-foreground">
            {merchantLogo && (
-             <img src={merchantLogo} alt={deal.origDealDomain} className="w-4 h-4 object-contain" />
+             <img src={merchantLogo} alt={deal.origDealDomain} className="w-6 h-6 object-contain" />
            )}
            <span className="truncate">{deal.origDealDomain}</span>
            <span>•</span>

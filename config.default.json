@@ -1,19 +1,13 @@
 {
-  "DEAL_API_BASE": "http://localhost:3000/api",
+  "DEAL_API_BASE": "http://localhost:3000",
+  "DEAL_API_ENDPOINTS": {
+    "DEALS": "/api/deals",
+    "DEALS_ENGAGE": "/api/deals/engage"
+  },
   "THEME_CONFIG": {
-    "BRAND_NAME": "DealSite",
+    "BRAND_NAME": "OpenDealSite",
     "SHOW_MERCHANT_LOGO": true,
     "STYLE_DEAL_CARD": "default"
-  },
-  "ROUTES": {
-    "HOME": "/",
-    "HOT": "/hot",
-    "SEARCH": "/search",
-    "DEAL": "/deal",
-    "ABOUT": "/about",
-    "PRIVACY": "/privacy",
-    "TERMS": "/terms",
-    "CONTRIBUTE": "/contribute"
   },
   "SUPPORTED_COUNTRIES": {
     "US": "us",

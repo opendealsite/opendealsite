@@ -21,7 +21,7 @@ git clone https://github.com/YOUR_USERNAME/opendealsite.git
 cd opendealsite
 
 # Add upstream remote
-git remote add upstream https://github.com/ORIGINAL_OWNER/opendealsite.git
+git remote add upstream https://github.com/opendealsite/opendealsite.git
 ```
 
 ### 2. Install Dependencies
@@ -88,6 +88,89 @@ Example:
   }
 }
 ```
+
+### Using Custom Configuration Files
+
+The project supports overriding the default configuration without modifying `config.default.json`:
+
+#### For Development
+
+1. **Create a custom config file**:
+   ```bash
+   cp config.default.json config.local.json
+   ```
+
+2. **Modify your custom config**:
+   ```json
+   // config.local.json
+   {
+     "DEAL_API_BASE": "https://myapi.example.com",
+     "THEME_CONFIG": {
+       "BRAND_NAME": "MyDealSite",
+       "SHOW_MERCHANT_LOGO": false,
+       "STYLE_DEAL_CARD": "minimal"
+     },
+     "SUPPORTED_COUNTRIES": {
+       "US": "us",
+       "UK": "uk"
+     }
+   }
+   ```
+
+3. **Set the environment variable**:
+   ```bash
+   # .env
+   APP_CONFIG_FILE="config.local.json"
+   ```
+
+4. **Run the project**:
+   ```bash
+   npm run dev
+   ```
+
+#### For Deployment
+
+Create environment-specific configs:
+
+```bash
+# Different configs for different environments
+config.default.json       # Base template (committed)
+config.development.json   # Local dev settings
+config.staging.json       # Staging environment
+config.production.json    # Production settings
+```
+
+Then set `APP_CONFIG_FILE` in your deployment environment:
+
+```bash
+# Vercel/Netlify/etc.
+APP_CONFIG_FILE="config.production.json"
+```
+
+#### Configuration Priority
+
+Values are resolved in this order (highest to lowest priority):
+
+1. **Environment variables** - Direct env vars like `DEAL_API_BASE`
+2. **Custom config file** - File specified by `APP_CONFIG_FILE`
+3. **Default config** - `config.default.json`
+
+Example:
+```bash
+# This will use config.local.json for most settings,
+# but DEAL_API_BASE from environment variable takes precedence
+APP_CONFIG_FILE="config.local.json"
+DEAL_API_BASE="https://override.example.com"
+```
+
+#### Best Practices
+
+- ✅ Keep `config.default.json` as a complete working template
+- ✅ Add `config.*.json` (except `config.default.json`) to `.gitignore`
+- ✅ Use custom configs for local development or deployment-specific settings
+- ✅ Document new config options in README.md
+- ❌ Don't commit sensitive data in config files
+- ❌ Don't modify `config.default.json` for personal preferences
 
 ### Component Guidelines
 
@@ -287,8 +370,8 @@ When making significant changes:
 
 ## ❓ Questions?
 
-- 💬 [GitHub Discussions](https://github.com/OWNER/opendealsite/discussions)
-- 🐛 [Issue Tracker](https://github.com/OWNER/opendealsite/issues)
+- 💬 [GitHub Discussions](https://github.com/opendealsite/opendealsite/discussions)
+- 🐛 [Issue Tracker](https://github.com/opendealsite/opendealsite/issues)
 
 ## 📜 Code of Conduct
 

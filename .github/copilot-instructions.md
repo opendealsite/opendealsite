@@ -14,6 +14,32 @@ OpenDealSite is a community-driven deal site platform. It lists deals, allows se
 - **State/Data**: React Server Components (RSC) for data fetching, Standard React Hooks for client interactivity.
 - **Config**: Application configuration is centralized in `config.default.json` and overrides via `src/env.js` or environment variables.
 
+## Configuration System
+
+### Config File Override
+The project supports dynamic configuration via the `APP_CONFIG_FILE` environment variable:
+
+- **Default**: Uses `config.default.json` when `APP_CONFIG_FILE` is not set
+- **Custom Config**: Set `APP_CONFIG_FILE=config.local.json` (or any filename) to use a custom config file
+- **Use Cases**: Different environments, user-specific settings, deployment variations
+
+```bash
+# .env file
+APP_CONFIG_FILE="config.production.json"
+# or
+APP_CONFIG_FILE="config.mysite.json"
+```
+
+### Configuration Priority
+1. Individual environment variables (highest priority)
+2. Custom config file (specified via `APP_CONFIG_FILE`)
+3. `config.default.json` (lowest priority, fallback)
+
+### Implementation
+- `src/lib/constants.ts` dynamically loads the config file at build/runtime
+- Server-side only (uses Node.js `fs` module)
+- Graceful fallback to `config.default.json` if custom config fails to load
+
 ## Architecture & Structure
 
 ### Folder Structure

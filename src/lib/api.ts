@@ -1,5 +1,5 @@
 import type { Deal, DealResponse, EngageResponse } from '../types';
-import { DEAL_API_BASE } from './constants';
+import { DEAL_API_BASE, DEAL_API_ENDPOINTS } from './constants';
 import { env } from "@/env";
 
 const CACHE_TTL = 600; // 10 minutes in seconds
@@ -14,7 +14,8 @@ async function fetchWithCache<T>(endpoint: string, options: FetchOptions = {}): 
   
   // Server-side fetch in Next.js automatically handles caching
   // We set next.revalidate to control freshness
-  const res = await fetch(`${DEAL_API_BASE}${endpoint}`, {
+  console.log('Using DEAL_API_BASE:', DEAL_API_BASE);
+  const res = await fetch(`${DEAL_API_BASE}${DEAL_API_ENDPOINTS.DEALS}`, {
     ...rest,
     headers: {
       ...headers,
@@ -57,7 +58,7 @@ export const api = {
   },
 
   engage: async (dealId: string, action: 'upvote' | 'click') => {
-    const res = await fetch(`${DEAL_API_BASE}/engage`, {
+    const res = await fetch(`${DEAL_API_BASE}${DEAL_API_ENDPOINTS.DEALS_ENGAGE}`, {
       method: 'POST',
       headers: { 
         'Content-Type': 'application/json',
