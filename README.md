@@ -100,7 +100,7 @@ opendealsite/
 │   ├── proxy.ts              # Country detection middleware
 │   ├── types.ts              # TypeScript interfaces
 │   └── env.js                # Environment validation (T3)
-└── COPILOT_INSTRUCTIONS.md   # AI assistant guidelines
+└── .github/COPILOT-INSTRUCTIONS.md   # AI assistant guidelines
 ```
 
 ## 🌐 Routing

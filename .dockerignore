@@ -1,0 +1,17 @@
+node_modules
+.next
+.git
+.github
+*.local
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Docker files
+Dockerfile
+.dockerignore
+
+# Config files (maybe we want to keep some, but general rule)
+# We copy what we need in Dockerfile
