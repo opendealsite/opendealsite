@@ -6,11 +6,19 @@ OpenDealSite uses a flexible configuration system designed for easy forking and 
 
 The app uses multiple configuration layers (in order of precedence):
 
-1. **Runtime Environment Variables** (highest priority)
-2. **`config.local.json`** (gitignored, for local development)
-3. **`config.default.json`** (version controlled, base template)
+1. **Individual Environment Variables** (e.g., `DEAL_API_BASE`, highest priority)
+2. **Custom Config File** (specified via `APP_CONFIG_FILE`, e.g., `config.local.json`)
+3. **`config.default.json`** (version controlled, base template, lowest priority)
 
 ## Files
+
+### `APP_CONFIG_FILE`
+**Purpose**: Environment variable to specify which configuration file to load.
+
+**Usage**:
+- If not set, the app defaults to `config.default.json`.
+- Set `APP_CONFIG_FILE="config.local.json"` to use local overrides.
+- In production, you might set `APP_CONFIG_FILE="config.production.json"`.
 
 ### `config.default.json`
 **Purpose**: Version-controlled base configuration that ships with the repo.
@@ -58,8 +66,8 @@ cp config.default.json config.local.json
 
 **When to use**: 
 - API keys and tokens
-- Environment-specific URLs
-- Feature flags for specific deployments
+- Specifying which config file to use
+- Overriding the API base URL
 
 **Example**:
 ```env
@@ -67,27 +75,24 @@ cp config.default.json config.local.json
 DEAL_API_TOKEN=your_secret_token_here
 
 # Optional overrides
-NEXT_PUBLIC_BRAND_NAME=CustomBrandName
-NEXT_PUBLIC_STYLE_DEAL_CARD=minimal
+DEAL_API_BASE=https://api.example.com
+APP_CONFIG_FILE=config.production.json
 ```
 
 ## Environment Variables
 
 ### Server-Side (Private)
-These are only available on the server and are validated by `src/env.js`:
+These are only available on the server and are used in `src/lib/constants.ts` or `src/env.js`:
 
 | Variable | Type | Required | Description |
 |----------|------|----------|-------------|
-| `DEAL_API_TOKEN` | string | Yes | API authentication token |
+| `DEAL_API_TOKEN` | string | Yes | API authentication token (Validated in `src/env.js`) |
+| `DEAL_API_BASE` | string | No | Base URL for the Deals API |
+| `APP_CONFIG_FILE`| string | No | Path to the config file (relative to root) |
 | `NODE_ENV` | enum | Auto | development/test/production |
 
 ### Client-Side (Public)
-These are exposed to the browser (must be prefixed with `NEXT_PUBLIC_`):
-
-| Variable | Type | Default | Description |
-|----------|------|---------|-------------|
-| `NEXT_PUBLIC_BRAND_NAME` | string | "DealSite" | Site branding name |
-| `NEXT_PUBLIC_STYLE_DEAL_CARD` | string | "default" | Deal card style variant |
+Currently, all thematic configuration is managed via the JSON configuration file specified by `APP_CONFIG_FILE`. We recommend using the JSON config for branding consistency across server and client components.
 
 ## Usage in Code
 
@@ -97,13 +102,30 @@ These are exposed to the browser (must be prefixed with `NEXT_PUBLIC_`):
 // src/lib/constants.ts
 import defaultConfig from '../../config.default.json';
 
-export const CONFIG = {
-  ...defaultConfig,
-  THEME_CONFIG: {
-    ...defaultConfig.THEME_CONFIG,
-    BRAND_NAME: process.env.NEXT_PUBLIC_BRAND_NAME || defaultConfig.THEME_CONFIG.BRAND_NAME,
+// Determine which config to use based on APP_CONFIG_FILE env var
+const configFileName = process.env.APP_CONFIG_FILE || 'config.default.json';
+
+// Dynamically load the specified config file (server-side only)
+let baseConfig = defaultConfig;
+if (typeof window === 'undefined' && configFileName !== 'config.default.json') {
+  try {
+    const path = require('path');
+    const fs = require('fs');
+    const configPath = path.join(process.cwd(), configFileName);
+    const configContent = fs.readFileSync(configPath, 'utf-8');
+    baseConfig = JSON.parse(configContent);
+  } catch (error) {
+    console.warn(`Warning: Could not load config file "${configFileName}".`);
+    baseConfig = defaultConfig;
   }
+}
+
+export const CONFIG = {
+  ...baseConfig,
+  // ... nested expansion
 };
+
+export const DEAL_API_BASE = process.env.DEAL_API_BASE || baseConfig.DEAL_API_BASE;
 ```
 
 ### Using Configuration
@@ -149,17 +171,17 @@ const brandName = THEME_CONFIG.BRAND_NAME;
 
 ### Scenario 2: Multiple Environments
 
-Use environment variables for environment-specific overrides:
+Use `APP_CONFIG_FILE` to point to environment-specific configuration files:
 
 **Production** (`.env.production`):
 ```env
-NEXT_PUBLIC_BRAND_NAME=DealSite
+APP_CONFIG_FILE="config.production.json"
 DEAL_API_TOKEN=prod_token_here
 ```
 
 **Staging** (`.env.staging`):
 ```env
-NEXT_PUBLIC_BRAND_NAME=DealSite Staging
+APP_CONFIG_FILE="config.staging.json"
 DEAL_API_TOKEN=staging_token_here
 ```
 
@@ -191,24 +213,17 @@ When adding a new feature that needs configuration:
 }
 ```
 
-### 2. Update `src/lib/constants.ts` (if needed)
+### 2. Update code to use the config
 ```typescript
-export const NEW_FEATURE = {
-  ...defaultConfig.NEW_FEATURE,
-  ENABLED: process.env.NEXT_PUBLIC_NEW_FEATURE_ENABLED === 'true' 
-    || defaultConfig.NEW_FEATURE.ENABLED,
-};
+import { CONFIG } from '@/lib/constants';
+
+if (CONFIG.NEW_FEATURE.ENABLED) {
+  // do something
+}
 ```
 
-### 3. Update `src/env.js` (if adding env vars)
-```typescript
-client: {
-  NEXT_PUBLIC_NEW_FEATURE_ENABLED: z.boolean().optional(),
-},
-runtimeEnv: {
-  NEXT_PUBLIC_NEW_FEATURE_ENABLED: process.env.NEXT_PUBLIC_NEW_FEATURE_ENABLED,
-},
-```
+### 3. Override for specific environments
+Create a new config file (e.g., `config.prod.json`) and set `APP_CONFIG_FILE="config.prod.json"`.
 
 ### 4. Update `.env.example`
 ```env
@@ -245,7 +260,7 @@ Pass environment variables via Docker:
 ```bash
 docker run -p 3000:3000 \
   -e DEAL_API_TOKEN=your_token \
-  -e NEXT_PUBLIC_BRAND_NAME=MyDeals \
+  -e APP_CONFIG_FILE=config.prod.json \
   opendealsite
 ```
 
@@ -257,7 +272,7 @@ kind: ConfigMap
 metadata:
   name: opendealsite-config
 data:
-  NEXT_PUBLIC_BRAND_NAME: "MyDeals"
+  APP_CONFIG_FILE: "config.prod.json"
 ---
 apiVersion: v1
 kind: Secret

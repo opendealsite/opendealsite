@@ -1,6 +1,6 @@
 # OpenDealSite
 
-> An open-source, community-driven deal finder platform built with Next.js and the T3 Stack.
+> An open-source, community-driven deal presenting platform built with Next.js and the T3 Stack.
 
 [![Next.js](https://img.shields.io/badge/Next.js-16.1.3-black)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.8-blue)](https://www.typescriptlang.org/)
@@ -17,7 +17,7 @@
 
 ## 📋 Prerequisites
 
-- Node.js 18+ 
+- Node.js 22+ 
 - npm 11+
 - A deals API backend (or use the included mock server)
 
@@ -26,7 +26,7 @@
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/yourusername/opendealsite.git
+git clone https://github.com/opendealsite/opendealsite.git
 cd opendealsite
 ```
 
@@ -52,17 +52,22 @@ DEAL_API_TOKEN="your_api_token_here"
 
 ### 4. Customize Configuration (Optional)
 
-The project uses a configuration system that's easy to override:
+The project uses a file-based configuration system with environment overrides:
 
-1. **Default Config**: `config.default.json` contains base settings
-2. **Environment Override**: Set environment variables to override defaults
-3. **Custom Config**: Create `config.local.json` (gitignored) for local development
+1. **Default Config**: `config.default.json` contains base settings.
+2. **Custom Config**: Create `config.local.json` (gitignored) or any other file.
+3. **Environment Override**: Set the `APP_CONFIG_FILE` environment variable to point to your custom config.
 
-Example environment overrides:
+Example using `config.local.json`:
 
-```env
-NEXT_PUBLIC_BRAND_NAME="MyDealsHub"
-NEXT_PUBLIC_STYLE_DEAL_CARD="minimal"
+```bash
+# .env file
+APP_CONFIG_FILE="config.local.json"
+```
+
+You can also override the API base URL directly:
+```bash
+DEAL_API_BASE="https://api.yourdomain.com"
 ```
 
 ### 5. Run Development Server
@@ -178,9 +183,9 @@ docker run -p 3000:3000 -e DEAL_API_TOKEN=your_token opendealsite
 | Variable | Required | Description | Default |
 |----------|----------|-------------|---------|
 | `DEAL_API_TOKEN` | Yes | API authentication token | - |
-| `NEXT_PUBLIC_BRAND_NAME` | No | Site branding | "DealSite" |
-| `NEXT_PUBLIC_STYLE_DEAL_CARD` | No | Card style variant | "default" |
-| `NODE_ENV` | Auto | Environment mode | "development" |
+| `DEAL_API_BASE` | No | Base URL for the Deals API | `http://localhost:3000` |
+| `APP_CONFIG_FILE`| No | Path to the configuration file | `config.default.json` |
+| `NODE_ENV` | Auto | Environment mode | `development` |
 
 ## 📚 Documentation
 
