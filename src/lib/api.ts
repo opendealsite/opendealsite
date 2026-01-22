@@ -9,13 +9,15 @@ type FetchOptions = RequestInit & {
   revalidate?: number;
 };
 
-async function fetchWithCache<T>(endpoint: string, options: FetchOptions = {}): Promise<T> {
-  const { tags, revalidate = CACHE_TTL, headers, ...rest } = options;
+async function fetchWithCache<T>(endpoint: string, queryString: string = '', options: FetchOptions = {}): Promise<T> {
+  const { tags = [], revalidate = CACHE_TTL, headers, ...rest } = options;
   
   // Server-side fetch in Next.js automatically handles caching
   // We set next.revalidate to control freshness
-  console.log('Using DEAL_API_BASE:', DEAL_API_BASE);
-  const res = await fetch(`${DEAL_API_BASE}${DEAL_API_ENDPOINTS.DEALS}`, {
+  const url = `${DEAL_API_BASE}${endpoint}${queryString}`;
+  const fetchTags = [...tags, queryString].filter(Boolean);
+
+  const res = await fetch(url, {
     ...rest,
     headers: {
       ...headers,
@@ -24,14 +26,14 @@ async function fetchWithCache<T>(endpoint: string, options: FetchOptions = {}): 
     },
     next: {
       revalidate,
-      tags
+      tags: fetchTags
     }
   });
 
   if (!res.ok) {
      // In a real app we might throw a better error or handle 404s
      // For migration, we keep it simple
-     throw new Error(`API request to ${endpoint} failed: ${res.statusText}`);
+     throw new Error(`API request to ${url} failed: ${res.statusText}`);
   }
 
   return res.json();
@@ -44,17 +46,24 @@ export const api = {
       limit: limit.toString(),
       country
     });
-    if (query) params.append('query', query);
+    if (query) params.append('q', query);
     
-    return fetchWithCache<DealResponse>(`/deals?${params.toString()}`, { tags: ['deals'] });
+    const queryString = `?${params.toString()}`;
+    return fetchWithCache<DealResponse>(DEAL_API_ENDPOINTS.DEALS, queryString, { tags: ['deals'] });
   },
 
   getHotDeals: async (hours = 24, limit = 20, country = 'us') => {
-    return fetchWithCache<DealResponse>(`/hot?hours=${hours}&limit=${limit}&country=${country}`, { tags: ['deals', 'hot'] });
+    const params = new URLSearchParams({
+      hottest: hours.toString(),
+      limit: limit.toString(),
+      country
+    });
+    const queryString = `?${params.toString()}`;
+    return fetchWithCache<DealResponse>(DEAL_API_ENDPOINTS.DEALS, queryString, { tags: ['deals', 'hot'] });
   },
 
   getDealById: async (id: string) => {
-    return fetchWithCache<Deal>(`/deal/${id}`, { tags: [`deal-${id}`] });
+    return fetchWithCache<Deal>(`/deal/${id}`, '', { tags: [`deal-${id}`] });
   },
 
   engage: async (dealId: string, action: 'upvote' | 'click') => {
