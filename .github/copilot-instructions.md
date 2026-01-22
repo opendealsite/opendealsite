@@ -20,7 +20,7 @@ OpenDealSite is a community-driven deal site platform. It lists deals, allows se
 The project supports dynamic configuration via the `APP_CONFIG_FILE` environment variable:
 
 - **Default**: Uses `config.default.json` when `APP_CONFIG_FILE` is not set
-- **Custom Config**: Set `APP_CONFIG_FILE=config.local.json` (or any filename) to use a custom config file
+- **Custom Config & Deep Merging**: Set `APP_CONFIG_FILE=config.local.json` to use a custom config file. This file is **deeply merged** into the default config, so only overrides are needed in the custom file.
 - **Use Cases**: Different environments, user-specific settings, deployment variations
 
 ```bash
@@ -36,9 +36,10 @@ APP_CONFIG_FILE="config.mysite.json"
 3. `config.default.json` (lowest priority, fallback)
 
 ### Implementation
-- `src/lib/constants.ts` dynamically loads the config file at build/runtime
-- Server-side only (uses Node.js `fs` module)
-- Graceful fallback to `config.default.json` if custom config fails to load
+- `src/lib/constants.ts` dynamically loads the config file at build/runtime and performs the deep merge.
+- Server-side only (uses Node.js `fs` module). Logs the configuration to console on startup.
+- Graceful fallback to `config.default.json` if custom config fails to load.
+- Affiliate links are handled by `src/lib/link/LinkService.ts` based on `AFFILIATE_PROVIDERS` in the config.
 
 ## Architecture & Structure
 
@@ -51,8 +52,9 @@ APP_CONFIG_FILE="config.mysite.json"
   - `DealCard.tsx`: The primary display component for a deal.
   - `Header.tsx`, `Sidebar.tsx`: Navigation and layout shell.
 - `src/lib/`: Utilities and API layers.
-  - `api.ts`: server-side data fetching tailored for Next.js (using `fetch` with `next: { revalidate: ... }`).
-  - `constants.ts`: App-wide constants sourced from config.
+  - `api.ts`: server-side data fetching with affiliate link processing.
+  - `constants.ts`: App-wide constants sourced from config (with deep merge and startup logging).
+  - `link/`: Affiliate provider logic (Wrapper, Appender, etc.).
   - `utils.ts`: Helper functions (formatting, etc.).
 
 ### Routing & Middleware

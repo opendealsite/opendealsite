@@ -12,5 +12,18 @@
   "SUPPORTED_COUNTRIES": {
     "US": "us",
     "CA": "ca"
+  },
+  "AFFILIATE_PROVIDERS": {
+    "FALLBACK": "https://redirect.viglink.com/?key=111111111111111111111111111111&u=URL_PLACE_HOLDER&cuid=",
+    "WRAPPER": {
+      "homedepot.com": "//homedepot.sjv.io/c/22222/22222/2222?u=URL_PLACE_HOLDER&sid=",
+      "bestbuy.com": "https://bestbuy.7tiv.net/c/22222/22222/10014?u=URL_PLACE_HOLDER"
+    },
+    "APPENDER": {
+      "amazon.com":"tag=your_com_tag-20",
+      "amazon.ca":"tag=your_ca_tag-20",
+      "ebay.com":"mkcid=1&mkrid=711-11111-11111-0&siteid=0&campid=1111111111&toolid=10001&mkevt=1",
+      "ebay.ca":"mkcid=1&mkrid=706-11111-11111-0&siteid=2&campid=11111111&toolid=10001&mkevt=1"
+    }
   }
 }

@@ -74,9 +74,10 @@ npm run typecheck
 When adding/changing configuration:
 
 1. Update `config.default.json` (base template)
-2. Update `src/env.js` if adding environment variables
-3. Update `.env.example` with the new variable
-4. Document in README.md
+2. If adding an affiliate provider, update the `AFFILIATE_PROVIDERS` section (WRAPPER for templates, APPENDER for tags, or FALLBACK for global redirects).
+3. Update `src/env.js` if adding environment variables
+4. Update `.env.example` with the new variable
+5. Document in README.md
 
 Example:
 ```json
@@ -152,7 +153,7 @@ APP_CONFIG_FILE="config.production.json"
 Values are resolved in this order (highest to lowest priority):
 
 1. **Environment variables** - Direct env vars like `DEAL_API_BASE`
-2. **Custom config file** - File specified by `APP_CONFIG_FILE`
+2. **Custom config file** - File specified by `APP_CONFIG_FILE`. This is **deeply merged** into the default config.
 3. **Default config** - `config.default.json`
 
 Example:
@@ -359,6 +360,7 @@ When making significant changes:
 4. Document migrations if needed
 
 ### Configuration Philosophy
+- **Deep Merge Architecture**: Custom config files are deeply merged with `config.default.json`, allowing for partial overrides.
 - **Override-friendly**: Config files use layering
 - **Environment-aware**: Support different deployment scenarios
 - **Type-safe**: Use TypeScript and Zod for validation

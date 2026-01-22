@@ -11,6 +11,7 @@
 - 🌍 **Multi-country Support**: Automatic country detection via Cloudflare headers
 - ⚡ **Server-Side Rendering**: Fast initial page loads with Next.js App Router
 - 🔄 **Smart Caching**: 10-minute cache TTL for optimal performance
+- 🔗 **Affiliate Ready**: Built-in system to convert deal links into affiliated links via configuration
 - 🎨 **Customizable UI**: Easy theming via configuration files
 - 🔍 **Search & Filter**: Find deals by keyword or view hottest deals
 - 📱 **Responsive Design**: Works seamlessly on all devices
@@ -52,11 +53,11 @@ DEAL_API_TOKEN="your_api_token_here"
 
 ### 4. Customize Configuration (Optional)
 
-The project uses a file-based configuration system with environment overrides:
+The project uses a hierarchical, file-based configuration system:
 
-1. **Default Config**: `config.default.json` contains base settings.
-2. **Custom Config**: Create `config.local.json` (gitignored) or any other file.
-3. **Environment Override**: Set the `APP_CONFIG_FILE` environment variable to point to your custom config.
+1. **Default Config**: `config.default.json` contains complete base settings.
+2. **Custom Config**: Create a custom file (e.g., `config.local.json`, gitignored).
+3. **Deep Merging**: If `APP_CONFIG_FILE` is set, the custom file is **deeply merged** into the default config. You only need to specify the fields you want to override.
 
 Example using `config.local.json`:
 
@@ -95,7 +96,8 @@ opendealsite/
 │   │   └── ExternalDealLink.tsx  # Interactive link (Client)
 │   ├── lib/
 │   │   ├── api.ts            # API client with caching
-│   │   ├── constants.ts      # Configuration loader
+│   │   ├── constants.ts      # Configuration loader with deep merge
+│   │   ├── link/             # Affiliate link conversion services
 │   │   └── utils.ts          # Helper functions
 │   ├── proxy.ts              # Country detection middleware
 │   ├── types.ts              # TypeScript interfaces

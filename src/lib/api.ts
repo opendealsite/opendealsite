@@ -1,8 +1,28 @@
 import type { Deal, DealResponse, EngageResponse } from '../types';
 import { DEAL_API_BASE, DEAL_API_ENDPOINTS } from './constants';
 import { env } from "@/env";
+import { getAffiliateLink } from './link/LinkService';
 
 const CACHE_TTL = 600; // 10 minutes in seconds
+
+/**
+ * Process deals to apply affiliate links before returning to the UI
+ */
+const withAffiliateLinks = (data: any): any => {
+  if (Array.isArray(data)) {
+    return data.map(deal => ({
+      ...deal,
+      origDealLink: getAffiliateLink(deal.origDealLink)
+    }));
+  }
+  if (data && typeof data === 'object' && 'origDealLink' in data) {
+    return {
+      ...data,
+      origDealLink: getAffiliateLink(data.origDealLink)
+    };
+  }
+  return data;
+};
 
 type FetchOptions = RequestInit & {
   tags?: string[];
@@ -49,7 +69,8 @@ export const api = {
     if (query) params.append('q', query);
     
     const queryString = `?${params.toString()}`;
-    return fetchWithCache<DealResponse>(DEAL_API_ENDPOINTS.DEALS, queryString, { tags: ['deals'] });
+    const deals = await fetchWithCache<DealResponse>(DEAL_API_ENDPOINTS.DEALS, queryString, { tags: ['deals'] });
+    return withAffiliateLinks(deals);
   },
 
   getHotDeals: async (hours = 24, limit = 20, country = 'us') => {
@@ -59,11 +80,13 @@ export const api = {
       country
     });
     const queryString = `?${params.toString()}`;
-    return fetchWithCache<DealResponse>(DEAL_API_ENDPOINTS.DEALS, queryString, { tags: ['deals', 'hot'] });
+    const deals = await fetchWithCache<DealResponse>(DEAL_API_ENDPOINTS.DEALS, queryString, { tags: ['deals', 'hot'] });
+    return withAffiliateLinks(deals);
   },
 
   getDealById: async (id: string) => {
-    return fetchWithCache<Deal>(`${DEAL_API_ENDPOINTS.DEALS}/${id}`, '', { tags: [`deal-${id}`] });
+    const deal = await fetchWithCache<Deal>(`${DEAL_API_ENDPOINTS.DEALS}/${id}`, '', { tags: [`deal-${id}`] });
+    return withAffiliateLinks(deal);
   },
 
   engage: async (dealId: string, action: 'upvote' | 'click') => {

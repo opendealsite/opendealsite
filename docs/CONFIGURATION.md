@@ -7,7 +7,7 @@ OpenDealSite uses a flexible configuration system designed for easy forking and 
 The app uses multiple configuration layers (in order of precedence):
 
 1. **Individual Environment Variables** (e.g., `DEAL_API_BASE`, highest priority)
-2. **Custom Config File** (specified via `APP_CONFIG_FILE`, e.g., `config.local.json`)
+2. **Custom Config File** (specified via `APP_CONFIG_FILE`, e.g., `config.local.json`). This file is **deeply merged** with the default config.
 3. **`config.default.json`** (version controlled, base template, lowest priority)
 
 ## Files
@@ -37,14 +37,33 @@ The app uses multiple configuration layers (in order of precedence):
   "SUPPORTED_COUNTRIES": {
     "US": "us",
     "CA": "ca"
+  },
+  "AFFILIATE_PROVIDERS": {
+    "FALLBACK": "https://redirect.viglink.com/?key=YOUR_KEY&u=URL_PLACE_HOLDER",
+    "WRAPPER": {
+      "homedepot.com": "https://homedepot.sjv.io/...?u=URL_PLACE_HOLDER"
+    },
+    "APPENDER": {
+      "amazon.com": "tag=your-tag-20"
+    }
   }
 }
 ```
 
+## Affiliate Link System
+
+OpenDealSite automatically converts original deal links into affiliate links based on the `AFFILIATE_PROVIDERS` configuration:
+
+- **WRAPPER**: Used for redirectors or networks that wrap the entire URL. Use `URL_PLACE_HOLDER` where the original link should be inserted (encoded).
+- **APPENDER**: Used for simple query parameter additions (like Amazon tags).
+- **FALLBACK**: A global wrapper used if no specific merchant domain is matched (e.g., VigLink).
+
+The system normalizes domains (e.g., handles `www.` and specific cases like `woot.com` subdomains) before matching.
+
 ### `config.local.json` (Optional)
 **Purpose**: Local overrides for development. Gitignored.
 
-**When to use**: Testing configuration changes without modifying the default.
+**When to use**: Testing configuration changes without modifying the default. Because of **deep merging**, you only need to include the keys you want to change.
 
 **Example**:
 ```json
