@@ -23,9 +23,12 @@ export const DealCard: React.FC<DealCardProps> = ({ deal, variant = 'grid', coun
     }`}>
       
       {/* Image Section */}
-      <div className={`relative overflow-hidden bg-gray-100 shrink-0 ${
-        isList ? 'w-full sm:w-48 aspect-video sm:aspect-square' : 'aspect-[4/3] w-full'
-      }`}>
+      <ExternalDealLink 
+        href={deal.origDealLink}
+        className={`relative overflow-hidden bg-gray-100 shrink-0 ${
+          isList ? 'w-full sm:w-48 aspect-video sm:aspect-square' : 'aspect-[4/3] w-full'
+        }`}
+      >
         {deal.imageLink ? (
           <img
             src={deal.imageLink}
@@ -45,7 +48,7 @@ export const DealCard: React.FC<DealCardProps> = ({ deal, variant = 'grid', coun
             {deal.percentOff}% OFF
           </div>
         )}
-      </div>
+      </ExternalDealLink>
 
       {/* Content Section */}
       <div className="flex flex-col flex-1 p-4 min-w-0">
@@ -57,16 +60,18 @@ export const DealCard: React.FC<DealCardProps> = ({ deal, variant = 'grid', coun
            )}
            <span className="truncate">{deal.origDealDomain}</span>
            <span>•</span>
-           <span>{formatRelativeTime(deal.dateCreated)}</span>
+           <Link href={`/${country}/deal/${deal.id}`} className="hover:text-primary transition-colors">
+             {formatRelativeTime(deal.dateCreated)}
+           </Link>
         </div>
 
         {/* Title */}
         <h3 className={`font-semibold text-foreground line-clamp-2 mb-2 group-hover:text-primary transition-colors ${
           isList ? 'text-lg' : 'text-base'
         }`}>
-          <Link href={`/${country}/deal/${deal.id}`} className="after:absolute after:inset-0">
+          <ExternalDealLink href={deal.origDealLink}>
             {deal.title}
-          </Link>
+          </ExternalDealLink>
         </h3>
 
         {/* Pricing */}

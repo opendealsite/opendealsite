@@ -63,7 +63,7 @@ export const api = {
   },
 
   getDealById: async (id: string) => {
-    return fetchWithCache<Deal>(`/deal/${id}`, '', { tags: [`deal-${id}`] });
+    return fetchWithCache<Deal>(`${DEAL_API_ENDPOINTS.DEALS}/${id}`, '', { tags: [`deal-${id}`] });
   },
 
   engage: async (dealId: string, action: 'upvote' | 'click') => {
