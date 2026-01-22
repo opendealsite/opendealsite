@@ -25,6 +25,7 @@ export const DealCard: React.FC<DealCardProps> = ({ deal, variant = 'grid', coun
       {/* Image Section */}
       <ExternalDealLink 
         href={deal.origDealLink}
+        dealId={deal.id}
         className={`relative overflow-hidden bg-gray-100 shrink-0 ${
           isList ? 'w-full sm:w-48 aspect-video sm:aspect-square' : 'aspect-[4/3] w-full'
         }`}
@@ -60,7 +61,7 @@ export const DealCard: React.FC<DealCardProps> = ({ deal, variant = 'grid', coun
            )}
            <span className="truncate">{deal.origDealDomain}</span>
            <span>•</span>
-           <Link href={`/${country}/deal/${deal.id}`} className="hover:text-primary transition-colors">
+           <Link href={`/${country}/deal/${deal.id}`} target='_blank' className="hover:text-primary transition-colors">
              {formatRelativeTime(deal.dateCreated)}
            </Link>
         </div>
@@ -69,7 +70,7 @@ export const DealCard: React.FC<DealCardProps> = ({ deal, variant = 'grid', coun
         <h3 className={`font-semibold text-foreground line-clamp-2 mb-2 group-hover:text-primary transition-colors ${
           isList ? 'text-lg' : 'text-base'
         }`}>
-          <ExternalDealLink href={deal.origDealLink}>
+          <ExternalDealLink href={deal.origDealLink} dealId={deal.id}>
             {deal.title}
           </ExternalDealLink>
         </h3>
@@ -117,6 +118,7 @@ export const DealCard: React.FC<DealCardProps> = ({ deal, variant = 'grid', coun
                 </button>
                 <ExternalDealLink 
                     href={deal.origDealLink} 
+                    dealId={deal.id}
                     className="rounded-md bg-primary px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-secondary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary whitespace-nowrap"
                 >
                     Get Deal

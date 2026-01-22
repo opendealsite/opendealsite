@@ -73,7 +73,7 @@ export const api = {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${env.DEAL_API_TOKEN}`
       },
-      body: JSON.stringify({ dealId, action }),
+      body: JSON.stringify({ id: dealId, action }),
       cache: 'no-store' // Mutations should not be cached
     });
     if (!res.ok) throw new Error('Engagement failed');

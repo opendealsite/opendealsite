@@ -6,6 +6,7 @@ import { Header } from '@/components/Header';
 import { Sidebar } from '@/components/Sidebar';
 import { FooterInfo } from '@/components/custom/FooterInfo';
 import { SEO } from '@/components/SEO';
+import { ExternalDealLink } from '@/components/ExternalDealLink';
 
 interface PageProps {
   params: Promise<{
@@ -114,17 +115,16 @@ export default async function DealDetailPage({ params }: PageProps) {
                   </div>
 
                   <div className="flex gap-4">
-                    <a 
+                    <ExternalDealLink 
                       href={deal.origDealLink} 
-                      target="_blank" 
-                      rel="noreferrer"
+                      dealId={id}
                       className="flex-1 bg-primary text-primary-foreground text-center py-3 rounded-lg font-bold text-lg hover:opacity-90 transition-colors shadow-lg shadow-primary/20 flex items-center justify-center gap-2"
                     >
                       <span>See Deal on {deal.origDealDomain}</span>
                       {logoUrl && (
-                        <img src={logoUrl} className="h-5 rounded bg-white p-0.5" alt="" />
+                        <img src={logoUrl} className="h-8 rounded bg-white p-0.5" alt="" />
                       )}
-                    </a>
+                    </ExternalDealLink>
                   </div>
                 </div>
               </div>
