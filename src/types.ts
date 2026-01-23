@@ -29,3 +29,17 @@ export interface EngageResponse {
   success: boolean;
   newHotValue: number;
 }
+
+export interface ColorConfig {
+  [key: string]: string;
+}
+
+export interface ThemeConfig {
+  BRAND_NAME: string;
+  SHOW_MERCHANT_LOGO: boolean;
+  STYLE_DEAL_CARD: string;
+  COLORS?: {
+    light: ColorConfig;
+    dark: ColorConfig;
+  };
+}

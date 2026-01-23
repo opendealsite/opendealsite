@@ -2,7 +2,7 @@
 import React from 'react';
 import Link from 'next/link';
 import type { Deal } from '../types';
-import { SidebarSquareAd, SidebarStickyAd } from './ads/SidebarAds';
+import { SidebarSquareAd, SidebarStickyAd, SidebarTextAd } from './ads/SidebarAds';
 
 interface SidebarProps {
   country: string;
@@ -15,6 +15,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ country, trendingDeals = [] })
   return (
     <aside className="hidden lg:block w-96 shrink-0">
       <div className="sticky top-6 flex flex-col gap-6">
+
+        <SidebarTextAd />
         
         {/* Ad Space 1 */}
         <SidebarSquareAd />

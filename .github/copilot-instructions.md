@@ -40,6 +40,8 @@ APP_CONFIG_FILE="config.mysite.json"
 - Server-side only (uses Node.js `fs` module). Logs the configuration to console on startup.
 - Graceful fallback to `config.default.json` if custom config fails to load.
 - Affiliate links are handled by `src/lib/link/LinkService.ts` based on `AFFILIATE_PROVIDERS` in the config.
+- Theme colors are injected as CSS variables in `src/app/layout.tsx` from `THEME_CONFIG.COLORS`.
+- Sidebar ads are configured via `ADS_CONFIG`, specifying content and layout height.
 
 ## Architecture & Structure
 

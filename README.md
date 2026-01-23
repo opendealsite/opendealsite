@@ -12,7 +12,8 @@
 - ⚡ **Server-Side Rendering**: Fast initial page loads with Next.js App Router
 - 🔄 **Smart Caching**: 10-minute cache TTL for optimal performance
 - 🔗 **Affiliate Ready**: Built-in system to convert deal links into affiliated links via configuration
-- 🎨 **Customizable UI**: Easy theming via configuration files
+- 🎨 **Fully Customizable Theming**: Configure primary/secondary colors and branding directly in JSON for both light and dark modes
+- 📢 **Built-in Ad Support**: Configurable sidebar placements for text and banner ads
 - 🔍 **Search & Filter**: Find deals by keyword or view hottest deals
 - 📱 **Responsive Design**: Works seamlessly on all devices
 

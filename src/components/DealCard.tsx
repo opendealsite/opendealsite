@@ -79,7 +79,7 @@ export const DealCard: React.FC<DealCardProps> = ({ deal, variant = 'grid', coun
         <div className="mt-auto flex items-baseline gap-2">
           {deal.dealPrice ? (
              <>
-               <span className="text-xl font-bold text-red-600">${deal.dealPrice}</span>
+               <span className="text-xl font-bold text-red-500">${deal.dealPrice}</span>
                {deal.regPrice && (
                  <span className="text-sm text-muted-foreground line-through">${deal.regPrice}</span>
                )}
@@ -94,7 +94,7 @@ export const DealCard: React.FC<DealCardProps> = ({ deal, variant = 'grid', coun
             {/* Hotness Progress Bar */}
             <div className="flex flex-col flex-1" title={`Hotness: ${deal.hotValue} / 800`}>
                 <div className="flex justify-between items-end mb-1.5">
-                    <span className="text-xs font-bold text-red-600 dark:text-red-400 flex items-center gap-1.5 leading-none">
+                    <span className="text-xs font-bold text-red-500 dark:text-red-400 flex items-center gap-1.5 leading-none">
                          <span className="text-[10px] text-muted-foreground font-medium uppercase tracking-wider">Hot</span>
                          {deal.hotValue}°
                     </span>

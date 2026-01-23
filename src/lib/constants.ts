@@ -1,4 +1,5 @@
 import defaultConfig from '../../config.default.json';
+import { type ThemeConfig } from '../types';
 
 // Determine which config to use based on APP_CONFIG_FILE env var
 // Defaults to config.default.json if not set
@@ -59,7 +60,8 @@ if (typeof window === 'undefined') {
 
 // Re-export specific sections for convenience if needed, matching original constants.ts structure
 export const DEAL_API_BASE = process.env.DEAL_API_BASE || baseConfig.DEAL_API_BASE;
-export const THEME_CONFIG = CONFIG.THEME_CONFIG;
+export const THEME_CONFIG = CONFIG.THEME_CONFIG as ThemeConfig;
 export const DEAL_API_ENDPOINTS = CONFIG.DEAL_API_ENDPOINTS;
 export const SUPPORTED_COUNTRIES = CONFIG.SUPPORTED_COUNTRIES;
+export const ADS_CONFIG = CONFIG.ADS_CONFIG;
 

@@ -7,7 +7,41 @@
   "THEME_CONFIG": {
     "BRAND_NAME": "OpenDealSite",
     "SHOW_MERCHANT_LOGO": true,
-    "STYLE_DEAL_CARD": "default"
+    "STYLE_DEAL_CARD": "default",
+    "COLORS": {
+      "light": {
+        "primary": "#dc2626",
+        "primary-foreground": "#ffffff",
+        "secondary": "#0f766e",
+        "secondary-foreground": "#ffffff",
+        "accent": "#f97316",
+        "accent-foreground": "#ffffff",
+        "background": "#f8fafc",
+        "foreground": "#1e293b",
+        "card": "#ffffff",
+        "card-foreground": "#1e293b",
+        "muted": "#f1f5f9",
+        "muted-foreground": "#64748b",
+        "border": "#e2e8f0",
+        "ring": "#dc2626"
+      },
+      "dark": {
+        "primary": "#dc2626",
+        "primary-foreground": "#ffffff",
+        "secondary": "#0d9488",
+        "secondary-foreground": "#f1f5f9",
+        "accent": "#fb923c",
+        "accent-foreground": "#0f172a",
+        "background": "#0f172a",
+        "foreground": "#f1f5f9",
+        "card": "#1e293b",
+        "card-foreground": "#f1f5f9",
+        "muted": "#1e293b",
+        "muted-foreground": "#94a3b8",
+        "border": "#334155",
+        "ring": "#dc2626"
+      }
+    }
   },
   "SUPPORTED_COUNTRIES": {
     "US": "us",
@@ -24,6 +58,20 @@
       "amazon.ca":"tag=your_ca_tag-20",
       "ebay.com":"mkcid=1&mkrid=711-11111-11111-0&siteid=0&campid=1111111111&toolid=10001&mkevt=1",
       "ebay.ca":"mkcid=1&mkrid=706-11111-11111-0&siteid=2&campid=11111111&toolid=10001&mkevt=1"
+    }
+  },
+  "ADS_CONFIG": {
+    "SIDEBAR_TEXT_AD": {
+      "CONTENT": "Text Advertisement",
+      "HEIGHT_CLASS": "h-[40px]"
+    },
+    "SIDEBAR_SQUARE_AD": {
+      "CONTENT": "Advertisement (300x250)",
+      "HEIGHT_CLASS": "h-[250px]"
+    },
+    "SIDEBAR_STICKY_AD": {
+      "CONTENT": "Vertical Banner Ad<br/>(300x600)",
+      "HEIGHT_CLASS": "h-[400px]"
     }
   }
 }

@@ -74,10 +74,12 @@ npm run typecheck
 When adding/changing configuration:
 
 1. Update `config.default.json` (base template)
-2. If adding an affiliate provider, update the `AFFILIATE_PROVIDERS` section (WRAPPER for templates, APPENDER for tags, or FALLBACK for global redirects).
-3. Update `src/env.js` if adding environment variables
-4. Update `.env.example` with the new variable
-5. Document in README.md
+2. If adding a theme property, update the `THEME_CONFIG.COLORS` sections for light/dark modes.
+3. If adding an advertisement slot, update `ADS_CONFIG`.
+4. If adding an affiliate provider, update the `AFFILIATE_PROVIDERS` section (WRAPPER for templates, APPENDER for tags, or FALLBACK for global redirects).
+5. Update `src/env.js` if adding environment variables
+6. Update `.env.example` with the new variable
+7. Document in README.md and/or docs/CONFIGURATION.md
 
 Example:
 ```json

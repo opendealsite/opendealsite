@@ -32,7 +32,31 @@ The app uses multiple configuration layers (in order of precedence):
   "THEME_CONFIG": {
     "BRAND_NAME": "DealSite",
     "SHOW_MERCHANT_LOGO": true,
-    "STYLE_DEAL_CARD": "default"
+    "STYLE_DEAL_CARD": "default",
+    "COLORS": {
+      "light": {
+        "primary": "#dc2626",
+        "primary-foreground": "#ffffff",
+        "secondary": "#0f766e",
+        "secondary-foreground": "#ffffff"
+      },
+      "dark": {
+        "primary": "#dc2626",
+        "primary-foreground": "#ffffff",
+        "secondary": "#0d9488",
+        "secondary-foreground": "#f1f5f9"
+      }
+    }
+  },
+  "ADS_CONFIG": {
+    "SIDEBAR_TEXT_AD": {
+      "CONTENT": "Text Advertisement",
+      "HEIGHT_CLASS": "h-[40px]"
+    },
+    "SIDEBAR_SQUARE_AD": {
+      "CONTENT": "Advertisement (300x250)",
+      "HEIGHT_CLASS": "h-[250px]"
+    }
   },
   "SUPPORTED_COUNTRIES": {
     "US": "us",
@@ -59,6 +83,40 @@ OpenDealSite automatically converts original deal links into affiliate links bas
 - **FALLBACK**: A global wrapper used if no specific merchant domain is matched (e.g., VigLink).
 
 The system normalizes domains (e.g., handles `www.` and specific cases like `woot.com` subdomains) before matching.
+
+## Theme Configuration
+
+OpenDealSite supports advanced branding via `THEME_CONFIG`. 
+
+- **BRAND_NAME**: The display name of the site.
+- **COLORS**: Supports dynamic CSS variable injection for `light` and `dark` modes.
+  - All standard Tailwind colors are supported: `primary`, `secondary`, `accent`, `background`, `foreground`, `card`, `muted`, `border`, `ring`.
+  - Include `-foreground` variants (e.g., `primary-foreground`) to define text color on top of colored backgrounds.
+
+Example override in `config.local.json`:
+```json
+{
+  "THEME_CONFIG": {
+    "COLORS": {
+      "light": {
+        "primary": "#0000ff"
+      }
+    }
+  }
+}
+```
+
+## Advertising Configuration
+
+Sidebar advertisements can be configured via `ADS_CONFIG`.
+
+- **SIDEBAR_TEXT_AD**: Small text-based advertisement.
+- **SIDEBAR_SQUARE_AD**: Standard square ad unit.
+- **SIDEBAR_STICKY_AD**: Large skyscraper/sticky ad unit.
+
+Each ad unit supports:
+- **CONTENT**: HTML/Text content for the ad.
+- **HEIGHT_CLASS**: Tailwind height class (e.g., `h-[250px]`) to reserve space.
 
 ### `config.local.json` (Optional)
 **Purpose**: Local overrides for development. Gitignored.
