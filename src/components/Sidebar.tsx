@@ -13,8 +13,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ country, trendingDeals = [] })
   const MAX_HOT_VALUE = 800;
 
   return (
-    <aside className="hidden lg:block w-96 shrink-0">
-      <div className="sticky top-6 flex flex-col gap-6">
+    <aside className="w-full lg:w-96 shrink-0">
+      <div className="lg:sticky lg:top-6 flex flex-col gap-6">
 
         <SidebarTextAd />
         

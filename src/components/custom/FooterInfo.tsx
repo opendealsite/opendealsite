@@ -4,10 +4,11 @@ import { THEME_CONFIG } from '@/lib/constants';
 
 export const FooterInfo: React.FC = () => {
   return (
-    <footer className="border-t border-border bg-card py-12 mt-20">
+    <footer className="border-t border-border bg-card py-6 mt-10">
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row justify-between items-center gap-8">
           <div className="flex flex-col items-center md:items-start gap-2">
+            <img src="/favicon.ico" alt="Logo" className="w-8 h-8 object-contain mb-2" />
             <p className="text-sm text-muted-foreground">
               &copy; {new Date().getFullYear()} {THEME_CONFIG.BRAND_NAME}. All rights reserved.
             </p>

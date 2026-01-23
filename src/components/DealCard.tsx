@@ -19,7 +19,7 @@ export const DealCard: React.FC<DealCardProps> = ({ deal, variant = 'grid', coun
   
   return (
     <div className={`group relative flex bg-card hover:bg-muted/50 border border-border rounded-xl overflow-hidden transition-all duration-200 ${
-      isList ? 'flex-col sm:flex-row' : 'flex-col'
+      isList ? 'flex-row' : 'flex-col'
     }`}>
       
       {/* Image Section */}
@@ -27,7 +27,7 @@ export const DealCard: React.FC<DealCardProps> = ({ deal, variant = 'grid', coun
         href={deal.origDealLink}
         dealId={deal.id}
         className={`relative overflow-hidden bg-gray-100 shrink-0 ${
-          isList ? 'w-full sm:w-48 aspect-video sm:aspect-square' : 'aspect-[4/3] w-full'
+          isList ? 'w-20 h-20 sm:w-48 sm:h-48' : 'aspect-square w-full'
         }`}
       >
         {deal.imageLink ? (
@@ -52,12 +52,12 @@ export const DealCard: React.FC<DealCardProps> = ({ deal, variant = 'grid', coun
       </ExternalDealLink>
 
       {/* Content Section */}
-      <div className="flex flex-col flex-1 p-4 min-w-0">
+      <div className={`flex flex-col flex-1 min-w-0 ${isList ? 'p-2 sm:p-4' : 'p-3 sm:p-4'}`}>
         
         {/* Meta Header */}
-        <div className="flex items-center gap-2 mb-2 text-xs text-muted-foreground">
+        <div className={`flex items-center gap-2 mb-1.5 text-muted-foreground ${isList ? 'text-[9px] sm:text-xs' : 'text-[10px] sm:text-xs'}`}>
            {merchantLogo && (
-             <img src={merchantLogo} alt={deal.origDealDomain} className="w-6 h-6 object-contain" />
+             <img src={merchantLogo} alt={deal.origDealDomain} className={`${isList ? 'w-3 h-3 sm:w-6 sm:h-6' : 'w-4 h-4 sm:w-6 sm:h-6'} object-contain`} />
            )}
            <span className="truncate">{deal.origDealDomain}</span>
            <span>•</span>
@@ -68,7 +68,7 @@ export const DealCard: React.FC<DealCardProps> = ({ deal, variant = 'grid', coun
 
         {/* Title */}
         <h3 className={`font-semibold text-foreground line-clamp-2 mb-2 group-hover:text-primary transition-colors ${
-          isList ? 'text-lg' : 'text-base'
+          isList ? 'text-xs sm:text-lg' : 'text-sm sm:text-base'
         }`}>
           <ExternalDealLink href={deal.origDealLink} dealId={deal.id}>
             {deal.title}
@@ -79,27 +79,27 @@ export const DealCard: React.FC<DealCardProps> = ({ deal, variant = 'grid', coun
         <div className="mt-auto flex items-baseline gap-2">
           {deal.dealPrice ? (
              <>
-               <span className="text-xl font-bold text-red-500">${deal.dealPrice}</span>
+               <span className={`font-bold text-red-500 ${isList ? 'text-lg sm:text-xl' : 'text-base sm:text-xl'}`}>${deal.dealPrice}</span>
                {deal.regPrice && (
-                 <span className="text-sm text-muted-foreground line-through">${deal.regPrice}</span>
+                 <span className={`text-muted-foreground line-through ${isList ? 'text-[10px] sm:text-sm' : 'text-[10px] sm:text-sm'}`}>${deal.regPrice}</span>
                )}
              </>
           ) : (
-             <span className="text-lg font-bold text-foreground">See Deal</span>
+             <span className={`font-bold text-foreground ${isList ? 'text-base sm:text-lg' : 'text-sm sm:text-lg'}`}>See Deal</span>
           )}
         </div>
 
         {/* Actions & Hotness */}
-        <div className="mt-4 flex items-center justify-between border-t border-border pt-4 gap-4">
+        <div className={`mt-auto pt-3 border-t border-border flex ${isList ? 'flex-row items-center justify-between gap-4' : 'flex-col gap-3'}`}>
             {/* Hotness Progress Bar */}
             <div className="flex flex-col flex-1" title={`Hotness: ${deal.hotValue} / 800`}>
-                <div className="flex justify-between items-end mb-1.5">
+                <div className="flex justify-between items-end mb-1">
                     <span className="text-xs font-bold text-red-500 dark:text-red-400 flex items-center gap-1.5 leading-none">
                          <span className="text-[10px] text-muted-foreground font-medium uppercase tracking-wider">Hot</span>
                          {deal.hotValue}°
                     </span>
                 </div>
-                <div className="h-1.5 w-full bg-muted rounded-full overflow-hidden">
+                <div className="h-1 w-full bg-muted rounded-full overflow-hidden">
                     <div 
                         className="h-full bg-linear-to-r from-red-500 to-orange-500 rounded-full transition-all duration-500 ease-out" 
                         style={{ width: `${Math.min((deal.hotValue / 800) * 100, 100)}%` }} 
@@ -107,9 +107,9 @@ export const DealCard: React.FC<DealCardProps> = ({ deal, variant = 'grid', coun
                 </div>
             </div>
 
-            <div className="flex gap-2 shrink-0">
+            <div className={`flex gap-1.5 ${isList ? 'shrink-0' : 'w-full'}`}>
                 <button 
-                    className="flex items-center justify-center rounded-md border border-border p-2 text-sm transition-colors text-muted-foreground hover:bg-muted hover:text-red-600"
+                    className={`${isList ? 'w-10' : 'flex-1'} flex items-center justify-center rounded-md border border-border p-1.5 transition-colors text-muted-foreground hover:bg-muted hover:text-red-600`}
                     aria-label="Upvote this deal"
                 >
                     <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -119,7 +119,7 @@ export const DealCard: React.FC<DealCardProps> = ({ deal, variant = 'grid', coun
                 <ExternalDealLink 
                     href={deal.origDealLink} 
                     dealId={deal.id}
-                    className="rounded-md bg-primary px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-secondary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary whitespace-nowrap"
+                    className={`${isList ? 'px-4' : 'flex-[2]'} text-center rounded-md bg-primary py-1.5 text-xs font-semibold text-white shadow-sm hover:bg-secondary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary whitespace-nowrap`}
                 >
                     Get Deal
                 </ExternalDealLink>

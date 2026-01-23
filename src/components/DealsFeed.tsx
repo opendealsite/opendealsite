@@ -74,7 +74,7 @@ export const DealsFeed: React.FC<DealsFeedProps> = ({
 
       {/* Content Feed */}
       {deals.length > 0 ? (
-        <div className={viewMode === 'grid' ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" : "flex flex-col gap-4"}>
+        <div className={viewMode === 'grid' ? "grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6" : "flex flex-col gap-4"}>
           {deals.map((deal) => (
             <DealCard key={deal.id} deal={deal} variant={viewMode} country={country} />
           ))}

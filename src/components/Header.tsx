@@ -18,6 +18,7 @@ export const Header: React.FC<HeaderProps> = ({ country }) => {
         {/* Logo */}
         <div className="flex-none">
           <Link href={`/${country}`} className="flex items-center gap-2 font-bold text-xl tracking-tight text-white dark:text-primary transition-colors">
+            <img src="/favicon.ico" alt="Logo" className="w-8 h-8 object-contain" />
             <span>{THEME_CONFIG.BRAND_NAME}</span>
           </Link>
         </div>
