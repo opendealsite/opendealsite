@@ -26,13 +26,19 @@ export default async function Page({ params, searchParams }: Props) {
   let pageTitle = "Latest Drops";
   let pageDescription = "Latest hot deals";
 
+  // Always fetch trending deals for the sidebar
+  let trendingDeals: Deal[] = [];
+
   try {
+    // Parallel fetch for main feed and sidebar if possible, but keeping it simple for now
+    trendingDeals = await api.getHotDeals(24, 0, 10, country);
+
     if (query) {
       deals = await api.getDeals(query, 0, 20, country);
       pageTitle = `Results for "${query}"`;
       pageDescription = `Search results for deals matching "${query}"`;
     } else if (hours) {
-      deals = await api.getHotDeals(hours, 20, country);
+      deals = await api.getHotDeals(hours, 0, 20, country);
       pageTitle = "Hottest Deals";
       pageDescription = `Hottest deals from the last ${hours} hours.`;
     } else {
@@ -55,10 +61,12 @@ export default async function Page({ params, searchParams }: Props) {
             country={country} 
             pageTitle={pageTitle} 
             pageDescription={pageDescription} 
+            query={query}
+            hottest={hours}
          />
 
          {/* Sidebar */}
-         <Sidebar country={country} trendingDeals={deals} />
+         <Sidebar country={country} trendingDeals={trendingDeals} />
       </main>
 
       <FooterInfo />

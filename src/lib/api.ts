@@ -73,9 +73,10 @@ export const api = {
     return withAffiliateLinks(deals);
   },
 
-  getHotDeals: async (hours = 24, limit = 20, country = 'us') => {
+  getHotDeals: async (hours = 24, offset = 0, limit = 20, country = 'us') => {
     const params = new URLSearchParams({
       hottest: hours.toString(),
+      offset: offset.toString(),
       limit: limit.toString(),
       country
     });

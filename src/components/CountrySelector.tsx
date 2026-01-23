@@ -21,18 +21,7 @@ export const CountrySelector: React.FC<CountrySelectorProps> = ({ currentCountry
     const newCountry = e.target.value;
     if (!pathname) return;
     
-    const segments = pathname.split('/');
-    // segments[0] is empty, segments[1] is the country
-    if (segments.length >= 2) {
-      segments[1] = newCountry;
-      const newPath = segments.join('/');
-      // Preserve search params
-      const search = typeof window !== 'undefined' ? window.location.search : '';
-      router.push(newPath + search);
-    } else {
-      // Fallback for root or unexpected paths
-      router.push(`/${newCountry}`);
-    }
+    router.push(`/${newCountry}`);
   };
 
   if (!mounted) {

@@ -50,14 +50,6 @@ export const CONFIG = {
   }
 };
 
-// Log configuration on startup (server-side only)
-if (typeof window === 'undefined') {
-  console.log('--- App Config Loaded ---');
-  console.log(`File: ${configFileName} merged with defaults`);
-  console.log(JSON.stringify(CONFIG, null, 2));
-  console.log('-------------------------');
-}
-
 // Re-export specific sections for convenience if needed, matching original constants.ts structure
 export const DEAL_API_BASE = process.env.DEAL_API_BASE || CONFIG.DEAL_API_BASE;
 export const THEME_CONFIG = CONFIG.THEME_CONFIG as ThemeConfig;

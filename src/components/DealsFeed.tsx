@@ -1,27 +1,93 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import type { Deal } from '@/types';
 import { DealCard } from './DealCard';
 import { ViewToggle } from './ViewToggle';
 import { getCookie, setCookie } from '@/lib/utils';
 import Link from 'next/link';
+import { fetchDealsAction } from '@/app/actions';
 
 interface DealsFeedProps {
   deals: Deal[];
   country: string;
   pageTitle: string;
   pageDescription: string;
+  query?: string;
+  hottest?: number;
 }
 
 export const DealsFeed: React.FC<DealsFeedProps> = ({ 
-  deals, 
+  deals: initialDeals, 
   country, 
   pageTitle, 
-  pageDescription 
+  pageDescription,
+  query,
+  hottest
 }) => {
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [mounted, setMounted] = useState(false);
+  const [deals, setDeals] = useState<Deal[]>(initialDeals);
+  const [offset, setOffset] = useState(initialDeals.length);
+  const [hasMore, setHasMore] = useState(initialDeals.length === 20);
+  const [isLoading, setIsLoading] = useState(false);
+  const loaderRef = useRef<HTMLDivElement>(null);
+
+  const loadMore = useCallback(async () => {
+    if (isLoading || !hasMore) return;
+    
+    setIsLoading(true);
+    const limit = 20;
+    
+    try {
+      const newDeals = await fetchDealsAction({
+        query,
+        hottest,
+        offset,
+        limit,
+        country
+      });
+
+      if (newDeals.length < limit) {
+        setHasMore(false);
+      }
+
+      if (newDeals.length > 0) {
+        setDeals(prev => [...prev, ...newDeals]);
+        setOffset(prev => prev + newDeals.length);
+      }
+    } catch (error) {
+      console.error("Failed to load more deals:", error);
+      setHasMore(false);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [isLoading, hasMore, query, hottest, offset, country]);
+
+  // Reset local state when initial deals or search criteria change
+  useEffect(() => {
+    setDeals(initialDeals);
+    setOffset(initialDeals.length);
+    setHasMore(initialDeals.length >= 20);
+    setIsLoading(false);
+  }, [initialDeals, query, hottest]);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0]?.isIntersecting && hasMore && !isLoading) {
+          loadMore();
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (loaderRef.current) {
+      observer.observe(loaderRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, [loadMore, hasMore, isLoading]);
 
   useEffect(() => {
     setMounted(true);
@@ -74,11 +140,25 @@ export const DealsFeed: React.FC<DealsFeedProps> = ({
 
       {/* Content Feed */}
       {deals.length > 0 ? (
-        <div className={viewMode === 'grid' ? "grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6" : "flex flex-col gap-4"}>
-          {deals.map((deal) => (
-            <DealCard key={deal.id} deal={deal} variant={viewMode} country={country} />
-          ))}
-        </div>
+        <>
+          <div className={viewMode === 'grid' ? "grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6" : "flex flex-col gap-4"}>
+            {deals.map((deal) => (
+              <DealCard key={deal.id} deal={deal} variant={viewMode} country={country} />
+            ))}
+          </div>
+          
+          {/* Loading Indicator / Observer Target */}
+          <div ref={loaderRef} className="py-10 flex justify-center">
+            {isLoading ? (
+              <div className="flex items-center gap-2 text-muted-foreground">
+                <div className="h-5 w-5 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+                <span>Loading more deals...</span>
+              </div>
+            ) : !hasMore && deals.length > 0 ? (
+              <p className="text-muted-foreground italic">You've reached the end of the feed.</p>
+            ) : null}
+          </div>
+        </>
       ) : (
         <div className="py-20 text-center">
           <h2 className="text-xl font-semibold mb-2">No deals found</h2>
