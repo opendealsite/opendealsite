@@ -119,7 +119,7 @@ export const DealCard: React.FC<DealCardProps> = ({ deal, variant = 'grid', coun
                 <ExternalDealLink 
                     href={deal.origDealLink} 
                     dealId={deal.id}
-                    className={`${isList ? 'px-4' : 'flex-[2]'} text-center rounded-md bg-primary py-1.5 text-xs font-semibold text-white shadow-sm hover:bg-secondary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary whitespace-nowrap`}
+                    className={`${isList ? 'px-4' : 'flex-2'} text-center rounded-md bg-primary py-1.5 text-xs font-semibold text-white shadow-sm hover:bg-secondary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary whitespace-nowrap`}
                 >
                     Get Deal
                 </ExternalDealLink>

@@ -20,7 +20,7 @@ COPY . .
 # ENV NEXT_TELEMETRY_DISABLED 1
 
 # SKIP_ENV_VALIDATION=1 is useful for Docker builds if you have zod validation in src/env.js
-ENV SKIP_ENV_VALIDATION 1
+ENV SKIP_ENV_VALIDATION=1
 
 RUN npm run build
 
@@ -28,7 +28,7 @@ RUN npm run build
 FROM node:20-alpine AS runner
 WORKDIR /app
 
-ENV NODE_ENV production
+ENV NODE_ENV=production
 # Uncomment the following line in case you want to disable telemetry during runtime.
 # ENV NEXT_TELEMETRY_DISABLED 1
 
@@ -48,9 +48,9 @@ USER nextjs
 
 EXPOSE 3000
 
-ENV PORT 3000
+ENV PORT=3000
 # set hostname to localhost
-ENV HOSTNAME "0.0.0.0"
+ENV HOSTNAME="0.0.0.0"
 
 # server.js is created by next build from the standalone output
 # https://nextjs.org/docs/pages/api-reference/next-config-js/output

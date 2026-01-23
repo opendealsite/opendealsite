@@ -59,7 +59,7 @@ if (typeof window === 'undefined') {
 }
 
 // Re-export specific sections for convenience if needed, matching original constants.ts structure
-export const DEAL_API_BASE = process.env.DEAL_API_BASE || baseConfig.DEAL_API_BASE;
+export const DEAL_API_BASE = process.env.DEAL_API_BASE || CONFIG.DEAL_API_BASE;
 export const THEME_CONFIG = CONFIG.THEME_CONFIG as ThemeConfig;
 export const DEAL_API_ENDPOINTS = CONFIG.DEAL_API_ENDPOINTS;
 export const SUPPORTED_COUNTRIES = CONFIG.SUPPORTED_COUNTRIES;

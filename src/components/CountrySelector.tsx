@@ -48,7 +48,7 @@ export const CountrySelector: React.FC<CountrySelectorProps> = ({ currentCountry
       className="rounded-md border border-white/20 bg-white/10 dark:border-border dark:bg-muted h-9 px-3 text-sm text-white dark:text-foreground focus:border-white focus:outline-none focus:ring-2 focus:ring-white/50 dark:focus:border-primary dark:focus:ring-primary transition-all uppercase"
       aria-label="Select country"
     >
-      {Object.entries(SUPPORTED_COUNTRIES).map(([key, value]) => (
+      {Object.entries(SUPPORTED_COUNTRIES as Record<string, string>).map(([key, value]) => (
         <option key={value} value={value} className="bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
           {key}
         </option>
