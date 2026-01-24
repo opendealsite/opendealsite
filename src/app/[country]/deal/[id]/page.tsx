@@ -21,7 +21,7 @@ export default async function DealDetailPage({ params }: PageProps) {
   // Fetch deal data and trending deals for sidebar in parallel
   const [deal, trendingDeals] = await Promise.all([
     api.getDealById(id).catch(() => null),
-    api.getHotDeals(24, 5, country).catch(() => [])
+    api.getHotDeals(24, 0, 8, country).catch(() => [])
   ]);
 
   if (!deal) notFound();
