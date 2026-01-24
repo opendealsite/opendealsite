@@ -3,7 +3,7 @@ import { DEAL_API_BASE, DEAL_API_ENDPOINTS } from './constants';
 import { env } from "@/env";
 import { getAffiliateLink } from './link/LinkService';
 
-const CACHE_TTL = 600; // 10 minutes in seconds
+const CACHE_TTL = 300;
 
 /**
  * Process deals to apply affiliate links before returning to the UI

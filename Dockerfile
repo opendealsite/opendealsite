@@ -11,6 +11,8 @@ RUN npm ci
 # Rebuild the source code only when needed
 FROM node:24-alpine AS builder
 WORKDIR /app
+ARG NEXT_PUBLIC_BUILD_TAG=local
+ENV NEXT_PUBLIC_BUILD_TAG=$NEXT_PUBLIC_BUILD_TAG
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
@@ -27,6 +29,8 @@ RUN npm run build
 # Production image, copy all the files and run next
 FROM node:24-alpine AS runner
 WORKDIR /app
+ARG NEXT_PUBLIC_BUILD_TAG=local
+ENV NEXT_PUBLIC_BUILD_TAG=$NEXT_PUBLIC_BUILD_TAG
 
 ENV NODE_ENV=production
 # Uncomment the following line in case you want to disable telemetry during runtime.
