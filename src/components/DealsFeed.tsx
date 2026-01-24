@@ -32,10 +32,13 @@ export const DealsFeed: React.FC<DealsFeedProps> = ({
   const [hasMore, setHasMore] = useState(initialDeals.length === 20);
   const [isLoading, setIsLoading] = useState(false);
   const loaderRef = useRef<HTMLDivElement>(null);
+  const loadingRef = useRef(false); // Prevent race conditions
 
   const loadMore = useCallback(async () => {
-    if (isLoading || !hasMore) return;
+    // Use ref to prevent race conditions
+    if (loadingRef.current || !hasMore) return;
     
+    loadingRef.current = true;
     setIsLoading(true);
     const limit = 20;
     
@@ -60,34 +63,62 @@ export const DealsFeed: React.FC<DealsFeedProps> = ({
       console.error("Failed to load more deals:", error);
       setHasMore(false);
     } finally {
+      loadingRef.current = false;
       setIsLoading(false);
     }
-  }, [isLoading, hasMore, query, hottest, offset, country]);
+  }, [hasMore, query, hottest, offset, country]);
 
   // Reset local state when initial deals or search criteria change
   useEffect(() => {
     setDeals(initialDeals);
     setOffset(initialDeals.length);
-    setHasMore(initialDeals.length >= 20);
+    loadingRef.current = false;
     setIsLoading(false);
   }, [initialDeals, query, hottest]);
 
   useEffect(() => {
+    if (!mounted) return;
     const observer = new IntersectionObserver(
       (entries) => {
-        if (entries[0]?.isIntersecting && hasMore && !isLoading) {
+        const entry = entries[0];
+        if (entry?.isIntersecting && !loadingRef.current) {
           loadMore();
         }
       },
-      { threshold: 0.1 }
+      { 
+        threshold: 0.1,
+        rootMargin: '100px' // Trigger 100px before the element enters viewport
+      }
     );
 
-    if (loaderRef.current) {
-      observer.observe(loaderRef.current);
+    const currentLoader = loaderRef.current;
+    let timeoutId: number | undefined;
+    if (currentLoader) {
+      observer.observe(currentLoader);
+      
+      const triggerVisibleLoader = () => {
+        if (!currentLoader || loadingRef.current) return;
+        const rect = currentLoader.getBoundingClientRect();
+        const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
+        if (isVisible) {
+          loadMore();
+        }
+      };
+
+      timeoutId = window.setTimeout(triggerVisibleLoader, 100);
+      triggerVisibleLoader();
     }
 
-    return () => observer.disconnect();
-  }, [loadMore, hasMore, isLoading]);
+    return () => {
+      if (currentLoader) {
+        observer.unobserve(currentLoader);
+      }
+      observer.disconnect();
+      if (timeoutId) {
+        window.clearTimeout(timeoutId);
+      }
+    };
+  }, [loadMore, mounted]);
 
   useEffect(() => {
     setMounted(true);
