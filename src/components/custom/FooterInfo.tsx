@@ -5,7 +5,7 @@ import { THEME_CONFIG } from '@/lib/constants';
 export const FooterInfo: React.FC = () => {
   const buildTag = process.env.NEXT_PUBLIC_BUILD_TAG || 'local';
   return (
-    <footer className="border-t border-border bg-card py-6 mt-10">
+    <footer className="border-t border-transparent dark:border-border bg-primary dark:bg-card py-6 mt-10 transition-colors duration-200">
       <div className="max-w-350 mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row justify-between items-center gap-8">
           <div className="flex flex-col items-center md:items-start gap-2">
@@ -14,26 +14,26 @@ export const FooterInfo: React.FC = () => {
               alt={`${THEME_CONFIG.BRAND_NAME} logo`}
               className="h-10 object-contain"
             />
-            <p className="text-sm text-muted-foreground">
+            <p className="text-sm text-white dark:text-foreground">
               &copy; {new Date().getFullYear()} {THEME_CONFIG.BRAND_NAME}. All rights reserved.
             </p>
-            <p className="text-xs text-muted-foreground/60 max-w-md text-center md:text-left">
+            <p className="text-xs text-white/80 dark:text-foreground/70 max-w-md text-center md:text-left">
               Find the best deals from across the web, curated by the community. 
               We may earn a commission when you click on links to various merchants on this site.
             </p>
           </div>
           
           <div className="flex flex-wrap justify-center gap-x-8 gap-y-4 text-sm font-medium items-center">
-            <Link href="/privacy" className="text-muted-foreground hover:text-primary transition-colors">
+            <Link href="/privacy" className="text-white/90 hover:text-white dark:text-foreground dark:hover:text-primary transition-colors">
               Privacy Policy
             </Link>
-            <Link href="/terms" className="text-muted-foreground hover:text-primary transition-colors">
+            <Link href="/terms" className="text-white/90 hover:text-white dark:text-foreground dark:hover:text-primary transition-colors">
               Terms of Service
             </Link>
-            <Link href="/about" className="text-muted-foreground hover:text-primary transition-colors">
+            <Link href="/about" className="text-white/90 hover:text-white dark:text-foreground dark:hover:text-primary transition-colors">
               About Us
             </Link>
-            <p className="text-xs text-muted-foreground/70 whitespace-nowrap">
+            <p className="text-xs text-white/80 dark:text-foreground/70 whitespace-nowrap">
               Powered by <a href="https://github.com/opendealsite/opendealsite" className="text-primary underline">OpenDealSite</a> {buildTag}
             </p>
           </div>
