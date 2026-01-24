@@ -32,9 +32,15 @@ type FetchOptions = RequestInit & {
 async function fetchWithCache<T>(endpoint: string, queryString: string = '', options: FetchOptions = {}): Promise<T> {
   const { tags = [], revalidate = CACHE_TTL, headers, ...rest } = options;
   
-  // Server-side fetch in Next.js automatically handles caching
-  // We set next.revalidate to control freshness
-  const url = `${DEAL_API_BASE}${endpoint}${queryString}`;
+  // Build URL with logic for query string separator
+  const baseUrl = `${DEAL_API_BASE}${endpoint}`;
+  let url = baseUrl;
+  if (queryString && queryString !== '?') {
+    url = baseUrl.includes('?') 
+      ? `${baseUrl}&${queryString.startsWith('?') ? queryString.substring(1) : queryString}`
+      : `${baseUrl}${queryString.startsWith('?') ? queryString : `?${queryString}`}`;
+  }
+
   const fetchTags = [...tags, queryString].filter(Boolean);
 
   const res = await fetch(url, {
