@@ -6,6 +6,7 @@
   },
   "THEME_CONFIG": {
     "BRAND_NAME": "OpenDealSite",
+    "BRAND_LOGO": "/favicon.ico",
     "SHOW_MERCHANT_LOGO": true,
     "STYLE_DEAL_CARD": "default",
     "COLORS": {

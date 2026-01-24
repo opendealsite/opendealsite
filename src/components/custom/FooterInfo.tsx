@@ -9,12 +9,11 @@ export const FooterInfo: React.FC = () => {
       <div className="max-w-350 mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row justify-between items-center gap-8">
           <div className="flex flex-col items-center md:items-start gap-2">
-            <div className="flex flex-col items-center md:flex-row md:items-start gap-2">
-              <img src="/favicon.ico" alt="Logo" className="w-8 h-8 object-contain" />
-              <p className="text-xs text-muted-foreground/70 whitespace-nowrap">
-                Powered by <a href="https://github.com/opendealsite/opendealsite" className="text-primary underline">OpenDealSite</a> · version {buildTag}
-              </p>
-            </div>
+            <img
+              src={`${THEME_CONFIG.BRAND_LOGO}`}
+              alt={`${THEME_CONFIG.BRAND_NAME} logo`}
+              className="h-10 object-contain"
+            />
             <p className="text-sm text-muted-foreground">
               &copy; {new Date().getFullYear()} {THEME_CONFIG.BRAND_NAME}. All rights reserved.
             </p>
@@ -24,7 +23,7 @@ export const FooterInfo: React.FC = () => {
             </p>
           </div>
           
-          <div className="flex flex-wrap justify-center gap-x-8 gap-y-4 text-sm font-medium">
+          <div className="flex flex-wrap justify-center gap-x-8 gap-y-4 text-sm font-medium items-center">
             <Link href="/privacy" className="text-muted-foreground hover:text-primary transition-colors">
               Privacy Policy
             </Link>
@@ -34,6 +33,9 @@ export const FooterInfo: React.FC = () => {
             <Link href="/about" className="text-muted-foreground hover:text-primary transition-colors">
               About Us
             </Link>
+            <p className="text-xs text-muted-foreground/70 whitespace-nowrap">
+              Powered by <a href="https://github.com/opendealsite/opendealsite" className="text-primary underline">OpenDealSite</a> {buildTag}
+            </p>
           </div>
         </div>
       </div>

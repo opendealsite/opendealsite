@@ -31,6 +31,7 @@ The app uses multiple configuration layers (in order of precedence):
   "DEAL_API_BASE": "http://localhost:3000/api",
   "THEME_CONFIG": {
     "BRAND_NAME": "DealSite",
+    "BRAND_LOGO": "#file:favicon.ico",
     "SHOW_MERCHANT_LOGO": true,
     "STYLE_DEAL_CARD": "default",
     "COLORS": {
@@ -89,6 +90,7 @@ The system normalizes domains (e.g., handles `www.` and specific cases like `woo
 OpenDealSite supports advanced branding via `THEME_CONFIG`. 
 
 - **BRAND_NAME**: The display name of the site.
+- **BRAND_LOGO**: Optional logo reference. Defaults to `/favicon.ico` 
 - **COLORS**: Supports dynamic CSS variable injection for `light` and `dark` modes.
   - All standard Tailwind colors are supported: `primary`, `secondary`, `accent`, `background`, `foreground`, `card`, `muted`, `border`, `ring`.
   - Include `-foreground` variants (e.g., `primary-foreground`) to define text color on top of colored backgrounds.
@@ -237,6 +239,7 @@ const brandName = THEME_CONFIG.BRAND_NAME;
    {
      "THEME_CONFIG": {
        "BRAND_NAME": "YourDealsHub",
+       "BRAND_LOGO": "https://cdn.yoursite.com/yourdeals/logo.png",
        "SHOW_MERCHANT_LOGO": true
      }
    }
@@ -269,7 +272,8 @@ Create `config.local.json` for testing:
 {
   "DEAL_API_BASE": "http://localhost:3001/api",
   "THEME_CONFIG": {
-    "BRAND_NAME": "Dev Site"
+    "BRAND_NAME": "Dev Site",
+    "BRAND_LOGO": "/favicon.ico"
   }
 }
 ```

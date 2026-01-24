@@ -11,6 +11,7 @@ interface HeaderProps {
 }
 
 export const Header: React.FC<HeaderProps> = ({ country }) => {
+  const altText = `${THEME_CONFIG.BRAND_NAME} logo`;
   return (
     <header className="sticky top-0 z-50 w-full border-b border-transparent dark:border-border bg-primary dark:bg-card shadow-sm transition-colors duration-200">
       <div className="container mx-auto px-4 h-16 flex items-center justify-between gap-4">
@@ -18,7 +19,7 @@ export const Header: React.FC<HeaderProps> = ({ country }) => {
         {/* Logo */}
         <div className="flex-none">
           <Link href={`/${country}`} className="flex items-center gap-2 font-bold text-xl tracking-tight text-white dark:text-primary transition-colors">
-            <img src="/favicon.ico" alt="Logo" className="w-8 h-8 object-contain" />
+            <img src={`${THEME_CONFIG.BRAND_LOGO}`} alt={altText} className="h-10 object-contain" />
             <span>{THEME_CONFIG.BRAND_NAME}</span>
           </Link>
         </div>
