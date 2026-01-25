@@ -61,7 +61,7 @@ export const DealCard: React.FC<DealCardProps> = ({ deal, variant = 'grid', coun
            )}
            <span className="truncate">{deal.origDealDomain}</span>
            <span>•</span>
-           <Link href={`/${country}/deal/${deal.id}`} target='_blank' className="hover:text-primary transition-colors">
+           <Link href={`/${country}/deal/${deal.slug || 'deal'}/${deal.id}`} target='_blank' className="hover:text-primary transition-colors">
              {formatRelativeTime(deal.dateCreated)}
            </Link>
         </div>

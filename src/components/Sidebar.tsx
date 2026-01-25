@@ -33,7 +33,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ country, trendingDeals = [] })
                 
                 return (
                   <Link 
-                    href={`/${country}/deal/${deal.id}`} 
+                    href={`/${country}/deal/${deal.slug || 'deal'}/${deal.id}`} 
                     key={deal.id} 
                     className="flex gap-3 p-3 hover:bg-muted transition-colors"
                   >

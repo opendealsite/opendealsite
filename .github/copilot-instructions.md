@@ -48,6 +48,7 @@ APP_CONFIG_FILE="config.mysite.json"
 ### Folder Structure
 - `src/app/[country]/`: All pages are localized under a dynamic country route segment.
   - `page.tsx`: The main feed (Home).
+  - `deal/[slug]/[id]/page.tsx`: The deal detail page with SEO-friendly slug.
   - `layout.tsx`: Country-specific layout (if needed) or root layout usage.
   - `loading.tsx`: Suspense loading states.
 - `src/components/`: Reusable UI components.

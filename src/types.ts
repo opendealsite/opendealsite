@@ -8,6 +8,7 @@ export interface Deal {
   imageLink: string;
   origDealLink: string;
   origDealDomain: string;
+  slug?: string;
   hotValue: number;
   dateCreated: string;
   sourcePostLink?: string;

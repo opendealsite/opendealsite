@@ -11,12 +11,13 @@ import { ExternalDealLink } from '@/components/ExternalDealLink';
 interface PageProps {
   params: Promise<{
     country: string;
+    slug: string;
     id: string;
   }>;
 }
 
 export default async function DealDetailPage({ params }: PageProps) {
-  const { country, id } = await params;
+  const { country, slug, id } = await params;
   
   // Fetch deal data and trending deals for sidebar in parallel
   const [deal, trendingDeals] = await Promise.all([

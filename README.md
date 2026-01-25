@@ -89,7 +89,8 @@ opendealsite/
 ├── src/
 │   ├── app/
 │   │   ├── [country]/        # Country-specific routes
-│   │   │   └── page.tsx      # Main deals feed
+│   │   │   ├── page.tsx      # Main deals feed
+│   │   │   └── deal/[slug]/[id]/ # Deal detail page
 │   │   └── layout.tsx        # Root layout
 │   ├── components/           # React components
 │   │   ├── DealCard.tsx      # Deal display component (Server)
@@ -109,6 +110,7 @@ opendealsite/
 ## 🌐 Routing
 
 - **Home**: `/{country}` - Latest deals
+- **Deal Detail**: `/{country}/deal/{slug}/{id}` - Detailed deal information
 - **Search**: `/{country}?q=keyword` - Search results
 - **Hot Deals**: `/{country}?hottest=24` - Trending deals (last 24 hours)
 - **Country Detection**: `/` - Redirects to `/{country}` based on Cloudflare header
@@ -150,6 +152,8 @@ Response:
   {
     "id": "123",
     "title": "Product Name",
+    "slug": "product-name-slug",
+    "country": "us",
     "dealPrice": 19.99,
     "regPrice": 39.99,
     "percentOff": 50,
