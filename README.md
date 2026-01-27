@@ -6,6 +6,12 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.8-blue)](https://www.typescriptlang.org/)
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
+![OpenDealSite Light Grid USA](img/demo-light-grid-usa-latest.png)
+*OpenDealSite USA Latest Deals (Light Mode, Grid View)*
+
+![OpenDealSite Dark List Canada](img/demo-dark-list-canada-hottest.png)
+*OpenDealSite Canada Hottest Deals (Dark Mode, List View)*
+
 ## 🚀 Features
 
 - 🌍 **Multi-country Support**: Automatic country detection via Cloudflare headers
