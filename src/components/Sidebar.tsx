@@ -28,7 +28,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ country, trendingDeals = [] })
               <h3 className="font-bold text-foreground">Trending Now</h3>
             </div>
             <div className="divide-y divide-border">
-              {trendingDeals.slice(0, 5).map(deal => {
+              {trendingDeals.slice(0, 8).map(deal => {
                 const progressPercentage = Math.min((deal.hotValue / MAX_HOT_VALUE) * 100, 100);
                 
                 return (

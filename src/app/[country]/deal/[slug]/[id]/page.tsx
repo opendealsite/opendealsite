@@ -145,7 +145,7 @@ export default async function DealDetailPage({ params }: PageProps) {
         </div>
       </main>
 
-      <FooterInfo />
+      <FooterInfo country={country} />
     </div>
   );
 }

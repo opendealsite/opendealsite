@@ -69,7 +69,7 @@ export default async function Page({ params, searchParams }: Props) {
          <Sidebar country={country} trendingDeals={trendingDeals} />
       </main>
 
-      <FooterInfo />
+      <FooterInfo country={country} />
     </div>
   );
 }
