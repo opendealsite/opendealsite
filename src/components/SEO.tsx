@@ -56,21 +56,27 @@ export const SEO: React.FC<SEOProps> = ({ title, description, image, canonical, 
     if (existingScript) existingScript.remove();
 
     if (deal) {
-      const schema = {
+      const schema: any = {
         "@context": "https://schema.org",
         "@type": "Product",
         "name": deal.title,
-        "image": [deal.imageLink],
         "description": deal.description || deal.title,
         "offers": {
           "@type": "Offer",
           "url": typeof window !== 'undefined' ? window.location.href : '',
           "priceCurrency": "USD",
-          "price": deal.dealPrice,
           "availability": "https://schema.org/InStock",
           "seller": { "@type": "Organization", "name": deal.origDealDomain }
         }
       };
+
+      if (deal.imageLink) {
+        schema.image = [deal.imageLink];
+      }
+
+      if (deal.dealPrice != null) {
+        schema.offers.price = deal.dealPrice;
+      }
 
       const script = document.createElement('script');
       script.id = 'json-ld';

@@ -91,8 +91,24 @@ export const api = {
     return withAffiliateLinks(deals);
   },
 
-  getDealById: async (id: string) => {
-    const deal = await fetchWithCache<Deal>(`${DEAL_API_ENDPOINTS.DEALS}/${id}`, '', { tags: [`deal-${id}`] });
+  getDealById: async (id: string, country = 'us') => {
+    // The DEAL_API_ENDPOINTS.DEALS might contain query parameters (e.g., /api/deals?forSites=xxx)
+    // We need to extract the base path to append the ID correctly
+    const parts = DEAL_API_ENDPOINTS.DEALS.split('?');
+    const basePath = parts[0];
+    const extraParams = parts[1];
+    
+    const endpoint = `${basePath}/${id}`;
+    let queryString = country ? `country=${country}` : '';
+    if (extraParams) {
+      queryString = queryString ? `${extraParams}&${queryString}` : extraParams;
+    }
+
+    const result = await fetchWithCache<any>(endpoint, queryString, { tags: [`deal-${id}`] });
+    
+    // Some APIs return a single object, others an array of one, others a wrapped object (data or deal)
+    const deal = Array.isArray(result) ? result[0] : (result?.data || result?.deal || result);
+    
     return withAffiliateLinks(deal);
   },
 
