@@ -7,7 +7,10 @@ import { THEME_CONFIG, GTM_ID } from "@/lib/constants";
 import { type ThemeConfig } from "@/types";
 
 export const metadata: Metadata = {
-  title: "DealSite - Community Deal Finder",
+  title: {
+    template: `%s | ${THEME_CONFIG.BRAND_NAME}`,
+    default: `${THEME_CONFIG.BRAND_NAME} - Community Deal Finder`,
+  },
   description: "Find and share the best deals from around the web.",
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
