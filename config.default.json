@@ -1,5 +1,6 @@
 {
   "DEAL_API_BASE": "http://localhost:3000",
+  "GTM_ID": "",
   "DEAL_API_ENDPOINTS": {
     "DEALS": "/api/deals",
     "DEALS_ENGAGE": "/api/deals/engage"
@@ -48,8 +49,7 @@
     "US": "us",
     "CA": "ca"
   },
-  "AFFILIATE_PROVIDERS": {
-  },
+  "AFFILIATE_PROVIDERS": {},
   "ADS_CONFIG": {
     "SIDEBAR_TEXT_AD": {
       "CONTENT": "Text Advertisement",
