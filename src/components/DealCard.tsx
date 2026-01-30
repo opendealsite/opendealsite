@@ -76,16 +76,17 @@ export const DealCard: React.FC<DealCardProps> = ({ deal, variant = 'grid', coun
         </h3>
 
         {/* Pricing */}
-        <div className="mt-auto flex items-baseline gap-2">
-          {deal.dealPrice ? (
+        <div className="mt-auto flex items-baseline gap-2 flex-wrap">
+          {deal.dealPrice && (
              <>
                <span className={`font-bold text-red-500 ${isList ? 'text-lg sm:text-xl' : 'text-base sm:text-xl'}`}>${deal.dealPrice}</span>
                {deal.regPrice && (
                  <span className={`text-muted-foreground line-through ${isList ? 'text-[10px] sm:text-sm' : 'text-[10px] sm:text-sm'}`}>${deal.regPrice}</span>
                )}
+               <span className="text-[10px] text-muted-foreground font-normal">
+                 (as of {new Date(deal.dateCreated).toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true, timeZone: 'America/New_York' })} ET)
+               </span>
              </>
-          ) : (
-             <span className={`font-bold text-foreground ${isList ? 'text-base sm:text-lg' : 'text-sm sm:text-lg'}`}>See Deal</span>
           )}
         </div>
 

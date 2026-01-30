@@ -118,11 +118,16 @@ export default async function DealDetailPage({ params }: PageProps) {
                     {deal.title}
                   </h1>
 
-                  <div className="mb-6 flex flex-wrap items-center gap-4">
+                  <div className="mb-6 flex flex-wrap items-baseline gap-4">
                     {hasPrice ? (
-                      <span className="text-4xl font-bold text-red-500">
-                        ${deal.dealPrice?.toFixed(2)}
-                      </span>
+                      <div className="flex items-baseline gap-2 flex-wrap">
+                        <span className="text-4xl font-bold text-red-500">
+                          ${deal.dealPrice?.toFixed(2)}
+                        </span>
+                        <span className="text-xs text-muted-foreground">
+                          (as of {new Date(deal.dateCreated).toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true, timeZone: 'America/New_York' })} ET)
+                        </span>
+                      </div>
                     ) : (
                       <span className="text-primary text-3xl font-bold">
                         Check Price
