@@ -72,6 +72,7 @@ export const DealsFeed: React.FC<DealsFeedProps> = ({
   useEffect(() => {
     setDeals(initialDeals);
     setOffset(initialDeals.length);
+    setHasMore(initialDeals.length === 20); // Reset hasMore based on new initial deals
     loadingRef.current = false;
     setIsLoading(false);
   }, [initialDeals, query, hottest]);

@@ -6,9 +6,10 @@ import { useRouter, useSearchParams } from 'next/navigation';
 
 interface SearchBarProps {
   country: string;
+  className?: string; // Add optional className prop
 }
 
-export const SearchBar: React.FC<SearchBarProps> = ({ country }) => {
+export const SearchBar: React.FC<SearchBarProps> = ({ country, className }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [searchTerm, setSearchTerm] = useState(searchParams.get('q') || '');
@@ -20,8 +21,11 @@ export const SearchBar: React.FC<SearchBarProps> = ({ country }) => {
     }
   };
 
+  // Use provided className or fall back to default
+  const containerClass = className ?? "hidden sm:flex relative w-48";
+
   return (
-    <form onSubmit={handleSearch} className="hidden sm:flex relative w-48">
+    <form onSubmit={handleSearch} className={containerClass}>
       <input
         type="text"
         placeholder="Search..."
