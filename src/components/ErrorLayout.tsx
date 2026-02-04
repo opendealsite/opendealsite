@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { Header } from '@/components/Header';
 import { SearchBar } from '@/components/SearchBar';
 import { DealsFeed } from '@/components/DealsFeed';
@@ -18,7 +18,9 @@ export function ErrorLayout({ country, title, message, deals, showReset, onReset
   return (
     <div className="bg-background text-foreground flex min-h-screen flex-col">
        <div className='border-b border-border'>
+          <Suspense fallback={<div className="h-16 bg-primary dark:bg-card" />}>
             <Header country={country} />
+          </Suspense>
        </div>
        
        <main className="container mx-auto flex flex-1 flex-col gap-8 px-4 py-6">
@@ -28,10 +30,12 @@ export function ErrorLayout({ country, title, message, deals, showReset, onReset
            <p className="text-xl text-muted-foreground max-w-lg">{message}</p>
            
            <div className="w-full max-w-lg mt-8">
-             <SearchBar 
-               country={country} 
-               className="relative w-full flex text-lg" 
-             />
+             <Suspense fallback={<div className="w-full h-12 bg-muted rounded-full" />}>
+               <SearchBar 
+                 country={country} 
+                 className="relative w-full flex text-lg" 
+               />
+             </Suspense>
            </div>
            
            {showReset && onReset && (
