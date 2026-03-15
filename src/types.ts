@@ -38,6 +38,7 @@ export interface ColorConfig {
 export interface ThemeConfig {
   BRAND_NAME: string;
   BRAND_LOGO?: string;
+  FAVICON_URL?: string;
   SHOW_MERCHANT_LOGO: boolean;
   STYLE_DEAL_CARD: string;
   COLORS?: {

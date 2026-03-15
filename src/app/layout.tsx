@@ -3,7 +3,7 @@ import "@/styles/globals.css";
 import { GeistSans } from "geist/font/sans";
 import { type Metadata } from "next";
 import Script from "next/script";
-import { THEME_CONFIG, GTM_ID } from "@/lib/constants";
+import { THEME_CONFIG, GTM_ID, ADSENSE_CLIENT_ID } from "@/lib/constants";
 import { type ThemeConfig } from "@/types";
 
 export const metadata: Metadata = {
@@ -12,7 +12,7 @@ export const metadata: Metadata = {
     default: `${THEME_CONFIG.BRAND_NAME} - Community Deal Finder`,
   },
   description: "Find and share the best deals from around the web.",
-  icons: [{ rel: "icon", url: "/favicon.ico" }],
+  icons: [{ rel: "icon", url: THEME_CONFIG.FAVICON_URL ?? "/favicon.ico" }],
 };
 
 export default function RootLayout({
@@ -61,6 +61,14 @@ export default function RootLayout({
           />
         )}
         {themeCSS && <style dangerouslySetInnerHTML={{ __html: themeCSS }} />}
+        {ADSENSE_CLIENT_ID && (
+          <Script
+            async
+            src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT_ID}`}
+            crossOrigin="anonymous"
+            strategy="afterInteractive"
+          />
+        )}
       </head>
       <body>
         {GTM_ID && (

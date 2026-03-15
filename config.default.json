@@ -8,6 +8,7 @@
   "THEME_CONFIG": {
     "BRAND_NAME": "OpenDealSite",
     "BRAND_LOGO": "/favicon.ico",
+    "FAVICON_URL": "/favicon.ico",
     "SHOW_MERCHANT_LOGO": true,
     "STYLE_DEAL_CARD": "default",
     "COLORS": {
@@ -51,6 +52,7 @@
   },
   "AFFILIATE_PROVIDERS": {},
   "ADS_CONFIG": {
+    "ADSENSE_CLIENT_ID": "",
     "SIDEBAR_TEXT_AD": {
       "CONTENT": "Text Advertisement",
       "HEIGHT_CLASS": "h-[40px]"
