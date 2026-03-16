@@ -7,6 +7,7 @@ import { Sidebar } from "@/components/Sidebar";
 import { FooterInfo } from "@/components/custom/FooterInfo";
 import { SEO } from "@/components/SEO";
 import { ExternalDealLink } from "@/components/ExternalDealLink";
+import { THEME_CONFIG } from "@/lib/constants";
 import type { Metadata } from "next";
 
 interface PageProps {
@@ -54,7 +55,7 @@ export default async function DealDetailPage({ params }: PageProps) {
 
   return (
     <div className="bg-background text-foreground min-h-screen transition-colors duration-300">
-      <Header country={country} />
+      <Header country={country} brandName={THEME_CONFIG.BRAND_NAME} brandLogo={THEME_CONFIG.BRAND_LOGO} />
 
       <main className="mx-auto max-w-350 px-4 py-8 sm:px-6 lg:px-8">
         <div className="flex flex-col gap-8 lg:flex-row">

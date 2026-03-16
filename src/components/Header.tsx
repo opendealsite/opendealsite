@@ -3,13 +3,14 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { THEME_CONFIG } from '../lib/constants';
 import { ThemeToggle } from './ThemeToggle';
 import { CountrySelector } from './CountrySelector';
 import { SearchBar } from './SearchBar';
 
 interface HeaderProps {
   country: string;
+  brandName: string;
+  brandLogo?: string;
 }
 
 const navLinkClass =
@@ -18,8 +19,8 @@ const navLinkClass =
 const mobileNavLinkClass =
   'block px-4 py-3 text-sm font-medium text-white/90 hover:text-white hover:bg-white/10 dark:text-foreground dark:hover:text-primary dark:hover:bg-muted transition-colors';
 
-export const Header: React.FC<HeaderProps> = ({ country }) => {
-  const altText = `${THEME_CONFIG.BRAND_NAME} logo`;
+export const Header: React.FC<HeaderProps> = ({ country, brandName, brandLogo }) => {
+  const altText = `${brandName} logo`;
   const [menuOpen, setMenuOpen] = useState(false);
 
   const closeMenu = () => setMenuOpen(false);
@@ -31,8 +32,8 @@ export const Header: React.FC<HeaderProps> = ({ country }) => {
         {/* Logo */}
         <div className="flex-none">
           <Link href={`/${country}`} onClick={closeMenu} className="flex items-center gap-2 font-bold text-xl tracking-tight text-white dark:text-primary transition-colors">
-            <img src={`${THEME_CONFIG.BRAND_LOGO}`} alt={altText} className="h-10 object-contain" />
-            <span>{THEME_CONFIG.BRAND_NAME}</span>
+            <img src={`${brandLogo}`} alt={altText} className="h-10 object-contain" />
+            <span>{brandName}</span>
           </Link>
         </div>
 

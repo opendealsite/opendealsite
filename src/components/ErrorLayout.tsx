@@ -3,6 +3,7 @@ import { Header } from '@/components/Header';
 import { SearchBar } from '@/components/SearchBar';
 import { DealsFeed } from '@/components/DealsFeed';
 import { FooterInfo } from '@/components/custom/FooterInfo';
+import { THEME_CONFIG } from '@/lib/constants';
 import type { Deal } from '@/types';
 
 interface ErrorLayoutProps {
@@ -19,7 +20,7 @@ export function ErrorLayout({ country, title, message, deals, showReset, onReset
     <div className="bg-background text-foreground flex min-h-screen flex-col">
        <div className='border-b border-border'>
           <Suspense fallback={<div className="h-16 bg-primary dark:bg-card" />}>
-            <Header country={country} />
+            <Header country={country} brandName={THEME_CONFIG.BRAND_NAME} brandLogo={THEME_CONFIG.BRAND_LOGO} />
           </Suspense>
        </div>
        

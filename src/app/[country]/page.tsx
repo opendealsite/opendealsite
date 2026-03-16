@@ -84,7 +84,7 @@ export default async function Page({ params, searchParams }: Props) {
           <header className="border-border bg-background h-16 border-b" />
         }
       >
-        <Header country={country} />
+        <Header country={country} brandName={THEME_CONFIG.BRAND_NAME} brandLogo={THEME_CONFIG.BRAND_LOGO} />
       </Suspense>
 
       <main className="container mx-auto flex flex-1 flex-col gap-8 px-4 py-6 lg:flex-row">
