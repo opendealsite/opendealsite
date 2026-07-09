@@ -1,10 +1,10 @@
 import "@/styles/globals.css";
 
+import { GoogleTagManager } from "@next/third-parties/google";
 import { GeistSans } from "geist/font/sans";
 import { type Metadata } from "next";
 import Script from "next/script";
 import { THEME_CONFIG, GTM_ID, ADSENSE_CLIENT_ID } from "@/lib/constants";
-import { type ThemeConfig } from "@/types";
 
 export const metadata: Metadata = {
   title: {
@@ -41,30 +41,24 @@ export default function RootLayout({
   };
 
   const themeCSS = generateThemeCSS();
+  const adsenseScriptUrl = ADSENSE_CLIENT_ID
+    ? `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${encodeURIComponent(
+        ADSENSE_CLIENT_ID,
+      )}`
+    : "";
+  const gtmNoScriptUrl = GTM_ID
+    ? `https://www.googletagmanager.com/ns.html?id=${encodeURIComponent(GTM_ID)}`
+    : "";
 
   return (
     <html lang="en" className={`${GeistSans.variable}`}>
+      {GTM_ID && <GoogleTagManager gtmId={GTM_ID} />}
       <head>
-        {GTM_ID && (
-          <Script
-            id="gtm-script"
-            strategy="afterInteractive"
-            dangerouslySetInnerHTML={{
-              __html: `
-                (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-                new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-                j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-                'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-                })(window,document,'script','dataLayer','${GTM_ID}');
-              `,
-            }}
-          />
-        )}
         {themeCSS && <style dangerouslySetInnerHTML={{ __html: themeCSS }} />}
         {ADSENSE_CLIENT_ID && (
           <Script
-            async
-            src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT_ID}`}
+            id="google-adsense"
+            src={adsenseScriptUrl}
             crossOrigin="anonymous"
             strategy="afterInteractive"
           />
@@ -74,9 +68,10 @@ export default function RootLayout({
         {GTM_ID && (
           <noscript>
             <iframe
-              src={`https://www.googletagmanager.com/ns.html?id=${GTM_ID}`}
+              src={gtmNoScriptUrl}
               height="0"
               width="0"
+              title="Google Tag Manager"
               style={{ display: "none", visibility: "hidden" }}
             />
           </noscript>

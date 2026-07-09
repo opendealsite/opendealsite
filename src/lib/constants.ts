@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return, @typescript-eslint/prefer-nullish-coalescing */
 import defaultConfig from "../../config.default.json";
 import { type ThemeConfig } from "../types";
 
@@ -58,9 +59,11 @@ export const CONFIG = {
 
 // Re-export specific sections for convenience if needed, matching original constants.ts structure
 export const DEAL_API_BASE = process.env.DEAL_API_BASE || CONFIG.DEAL_API_BASE;
-export const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID || CONFIG.GTM_ID;
+export const GTM_ID: string = CONFIG.GTM_ID || "";
 export const THEME_CONFIG = CONFIG.THEME_CONFIG as ThemeConfig;
 export const DEAL_API_ENDPOINTS = CONFIG.DEAL_API_ENDPOINTS;
 export const SUPPORTED_COUNTRIES = CONFIG.SUPPORTED_COUNTRIES;
 export const ADS_CONFIG = CONFIG.ADS_CONFIG;
-export const ADSENSE_CLIENT_ID: string = process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID || CONFIG.ADS_CONFIG?.ADSENSE_CLIENT_ID || "";
+export const ADSENSE_CLIENT_ID: string =
+  CONFIG.ADS_CONFIG?.ADSENSE_CLIENT_ID || "";
+export const ADSENSE_PUBLISHER_ID = ADSENSE_CLIENT_ID.replace(/^ca-/, "");

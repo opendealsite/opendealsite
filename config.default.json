@@ -52,7 +52,7 @@
   },
   "AFFILIATE_PROVIDERS": {},
   "ADS_CONFIG": {
-    "ADSENSE_CLIENT_ID": "",
+    "ADSENSE_CLIENT_ID": "ca-pub-111111111111111",
     "SIDEBAR_TEXT_AD": {
       "CONTENT": "Text Advertisement",
       "HEIGHT_CLASS": "h-[40px]"
